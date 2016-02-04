@@ -1,0 +1,15 @@
+<template name="frame">
+    <div id="header" class="ui top fixed inverted menu">
+        {{> yield region='header'}}
+    </div>
+    <div class="ui stackable equal height full-height grid">
+        <div id="main" class="ui thirteen wide centered column segment">
+            {{#transitioner}}
+                {{> yield}}
+            {{/transitioner}}
+        </div>
+    </div>
+    <div id="footer" class="ui bottom fixed inverted menu">
+        {{> yield region='footer'}}
+    </div>
+</template>
