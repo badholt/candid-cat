@@ -1,0 +1,132 @@
+<template name="welcome">
+    <div id="main-grid" class="ui centered stackable equal height grid">
+        <div class="ui expanded row">
+            <div class="ui column">
+                <div id="splasher" class="ui horizontal divider huge header">
+                    <label class="label">
+                        <span class="double slasher outlined">candid</span>
+                        <img class="ui image" src="/icons/logo.png"/>
+                    </label>
+                </div>
+                <div class="ui centered stackable grid">
+                    <div class="ui header row">straightforward code assessment</div>
+                    <div class="ui ten wide column">
+                        <div class="ui fluid massive buttons">
+                            <div id="login" class="ui animated black button" tabindex="0">
+                                <div class="visible content">
+                                    login
+                                </div>
+                                <div class="hidden content">
+                                    <i class="right arrow icon"></i>
+                                </div>
+                            </div>
+                            <div class="or"></div>
+                            <div id="sign-up" class="ui animated pink button" tabindex="0">
+                                <div class="visible content">
+                                    sign up
+                                </div>
+                                <div class="hidden content">
+                                    <i class="right arrow icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="login">
+    <div id="main-grid" class="ui centered stackable equal height grid">
+        <div class="ui expanded row">
+            <div class="ui column">
+                <div id="splasher" class="ui horizontal divider huge header">
+                    <i class="ui big icons">
+                        <i class="user icon"></i>
+                        <i class="corner signup icon"></i>
+                    </i>
+                    sign in (or up)
+                </div>
+                <div class="ui centered stackable one column grid">
+                    <div class="ui ten wide column">
+                        {{> loginForm}}
+                    </div>
+                    <div class="ui row">
+                        <div id="homeward-bound" class="ui animated grey button" tabindex="0">
+                            <div class="visible content">
+                                back
+                            </div>
+                            <div class="hidden content">
+                                <i class="right arrow icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="loginForm">
+    <div class="ui two column middle aligned very relaxed stackable grid">
+        <div class="column">
+            <form id="login-form" class="ui {{#if $.Session.get 'signUp'}}warning{{/if}} form">
+                <div class="field">
+                    <label>Email</label>
+                    <div class="ui left icon input">
+                        <input name="email" type="text" placeholder="Username">
+                        <i class="user icon"></i>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <div class="ui left icon input">
+                        <input id="login-password" name="password" type="password">
+                        <i class="lock icon"></i>
+                    </div>
+                </div>
+                {{# if $.Session.get 'signUp'}}
+                    <div class="field">
+                        <label>Username</label>
+                        <div class="ui left icon input">
+                            <input name="username" type="text" placeholder="Username">
+                            <i class="user icon"></i>
+                        </div>
+                    </div>
+                {{/if}}
+                <div class="ui warning message">
+                    <div class="header">User Not Found</div>
+                    <p>If you wish to sign up, please enter a username and submit.</p>
+                </div>
+                <button id="login" class="ui animated big fluid green submit button" tabindex="0" type="submit">
+                    <div class="visible content">
+                        login
+                    </div>
+                    <div class="hidden content">
+                        (or sign up!)
+                    </div>
+                </button>
+            </form>
+        </div>
+        <div class="ui vertical divider">
+            Or
+        </div>
+        <div class="center aligned column">
+            <div class="ui massive vertical buttons">
+                <button id="facebook-login" type="submit" class="ui blue labeled icon massive button">
+                    <i class="facebook icon"></i>
+                    with facebook
+                </button>
+                <button id="github-login" type="submit" class="ui black labeled icon massive button">
+                    <i class="github icon"></i>
+                    with github
+                </button>
+                <button id="google-login" type="submit" class="ui red labeled icon massive button">
+                    <i class="google icon"></i>
+                    with google
+                </button>
+            </div>
+        </div>
+    </div>
+</template>

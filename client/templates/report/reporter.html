@@ -1,0 +1,135 @@
+<template name="reporter">
+    {{> quizDropdown}}
+    {{#with selection}}
+        {{> dataDisplay}}
+    {{/with}}
+</template>
+
+<template name="dataDisplay">
+    <div class="ui {{difficulty}} centered header">
+        {{title}}, Question(s){{> questionsDropdown}}
+    </div>
+    {{#with calculations}}
+        <div class="ui centered two column stackable grid">
+            <div class="ui column">
+                <div class="ui row">
+                    <div id="accuracy" class="ui indicating progress"
+                         data-value="{{correct}}" data-total="{{total}}">
+                        <div class="bar"></div>
+                        <div class="label">Accuracy</div>
+                    </div>
+                </div>
+                <div class="ui row">
+                    <div class="ui column">
+                        <div class="ui statistics">
+                            <div class="red statistic">
+                                <div class="value">
+                                    {{slowest}}
+                                </div>
+                                <div class="label">
+                                    slowest answer (s)
+                                </div>
+                            </div>
+                            <div class="green statistic">
+                                <div class="value">
+                                    {{fastest}}
+                                </div>
+                                <div class="label">
+                                    fastest answer (s)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui column">
+                <div class="ui ten wide column">
+                    <div class="ui center aligned table header">Incorrect Responses:</div>
+                    {{> missList misses=misses}}
+                </div>
+            </div>
+        </div>
+    {{else}}
+        <div class="ui center aligned segment">
+            You have not taken this quiz yet!  Click
+            <button id="takeQuiz" class="ui basic button">here</button>
+            to take it now.
+        </div>
+    {{/with}}
+</template>
+
+<template name="quizReport">
+    <div class="item" data-value="{{title}}">
+        <i class="clock icon"></i>
+        {{title}}
+    </div>
+</template>
+
+<template name="questionsDropdown">
+    <div id="questionsSelection" class="ui multiple dropdown">
+        <input type="hidden" name="questions">
+        <div class="default text">All</div>
+        <div class="menu">
+            <div class="default item" data-value="default">All</div>
+            {{#each questions}}
+                <a class="item" data-value="{{number}}">
+                    {{number}}
+                </a>
+            {{/each}}
+        </div>
+        <i class="dropdown icon"></i>
+    </div>
+</template>
+
+<template name="quizDropdown">
+    <div id="quizSelection" class="ui fluid selection dropdown">
+        <input type="hidden" name="quiz">
+        <i class="dropdown icon"></i>
+        <div class="default text">Select your data to review</div>
+        <div class="menu">
+            {{#each quizzes}}
+                {{> quizReport}}
+            {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name="missList">
+    <table class="ui very basic celled center aligned small sortable table">
+        <thead>
+        <tr>
+            <th>Question</th>
+            <th>Response</th>
+            <th>Correct Answer</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each misses}}
+            {{> miss}}
+        {{/each}}
+        </tbody>
+    </table>
+</template>
+
+<template name="miss">
+    <tr>
+        <td>
+            <h4 class="ui header">
+                <div class="content">
+                    Question {{number}}
+                    <div class="sub header">
+                        {{type}} HTML
+                    </div>
+                </div>
+            </h4>
+        </td>
+        <td class="negative">
+            <div class="ui header">
+                {{response}}
+            </div>
+        </td>
+        <td class="positive">
+            {{answer}}
+        </td>
+    </tr>
+</template>

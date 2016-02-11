@@ -1,17 +1,16 @@
 <template name="notFound">
-    <div class="ui two column centered grid">
-        <div class="two column centered row">
-            <div class="column">
-                <i class="massive icons">
-                    <i class="world icon"></i>
-                    <i class="corner search icon"></i>
-                </i>
+    <div id="notFound" class="ui two column centered grid">
+        <div class="ui huge header">
+            <div class="content">404</div>
+            <div class="sub header">
+                Lost?
             </div>
-            <div class="column">
-                <div class="404 page jumbotron">
-                    <h1>404</h1>
-                    <p>Sorry, we couldn't find a page at this address!</p>
-                </div>
+        </div>
+        <div class="one column centered row">
+            <div class="ui centered row">
+                <a href="{{pathFor 'home'}}">
+                    <img src="/icons/logo.png" />
+                </a>
             </div>
         </div>
     </div>

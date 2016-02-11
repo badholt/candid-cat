@@ -1,15 +1,19 @@
-<template name="frame">
-    <div id="header" class="ui top fixed inverted menu">
+<template name="splash">
+    {{#transitioner}}
+        {{> yield}}
+    {{/transitioner}}
+</template>
+
+<template name="playtime">
+    <div id="header" class="ui top fixed inverted three item stackable menu">
         {{> yield region='header'}}
     </div>
-    <div class="ui stackable equal height full-height grid">
-        <div id="main" class="ui thirteen wide centered column segment">
-            {{#transitioner}}
-                {{> yield}}
-            {{/transitioner}}
-        </div>
+    <div id="main-grid" class="ui stackable equal height full-height grid">
+        {{#transitioner}}
+            {{> yield}}
+        {{/transitioner}}
     </div>
-    <div id="footer" class="ui bottom fixed inverted menu">
+    <div id="footer" class="ui bottom fixed inverted one item menu">
         {{> yield region='footer'}}
     </div>
 </template>

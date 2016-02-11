@@ -1,0 +1,71 @@
+<template name="play">
+    <div id="main-segment" class="ui thirteen wide centered column stacked segment">
+        <div id="quiz" class="ui form">
+            {{#with problem}}
+                {{> question}}
+                {{#if aware}}<h1 id="timer" class="ui header"></h1>{{/if}}
+                <div class="ui centered stackable grid">
+                    <div class="row">
+                        {{#if $eq type 'find'}}
+                            {{> find}}
+                        {{else}}
+                            {{> fix}}
+                        {{/if}}
+                    </div>
+                    {{#if $.Session.get 'answered'}}
+                        <div class="row">{{> controls}}</div>
+                    {{/if}}
+                </div>
+            {{/with}}
+        </div>
+    </div>
+</template>
+
+<template name="answer">
+    <div id="answer-segment">
+        <pre class="ui segment">
+            <label class="ui two inline fields">
+                <div class="ui center aligned header field">Your current answer* is:</div>
+                <code id="selected-code" class="language-html ui field"></code>
+            </label>
+            <label class="ui bottom attached label">* Your answer is not final until you click 'continue'</label>
+        </pre>
+    </div>
+</template>
+
+<template name="controls">
+    <div class="ui bottom attached huge icon one item menu">
+        <a class="item">
+            <div id="nextQuestion" class="ui basic button">Continue<i class="angle right icon"></i></div>
+        </a>
+    </div>
+</template>
+
+<template name="find">
+    <div class="ui twelve wide column">
+        <pre id="pre-prompt">
+            <code id="code-prompt" class="language-html">
+                {{code}}
+            </code>
+        </pre>
+        {{#if $.Session.get 'answered'}}
+            {{> answer}}
+        {{/if}}
+    </div>
+</template>
+
+<template name="fix">
+
+</template>
+
+<template name="question">
+    <h2 class="ui dividing huge {{difficulty}} header">
+        <i class="{{difficulty}} bordered fitted inverted {{#if $eq type 'find'}}search{{else}}wrench{{/if}} icon"></i>
+        <div class="content">
+            Question {{number}}
+            <div class="sub header">
+                {{prompt}}
+            </div>
+        </div>
+    </h2>
+</template>
