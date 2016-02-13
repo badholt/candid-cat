@@ -1,7 +1,6 @@
 Template.header.helpers({
     heading: function () {
-        var id = Session.get('currentQuiz'),
-            quiz = Quizzes.find(id).fetch();
-        return (quiz) ? quiz.title : id;
+        var current = Session.get('currentQuiz');
+        return (_.isObject(current)) ? current.title : Quizzes.findOne(current).title;
     }
 });
