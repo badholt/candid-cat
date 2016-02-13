@@ -1,3 +1,14 @@
+Template.accuracyBar.onRendered(function () {
+    $('.dropdown').dropdown();
+    $('#accuracy').progress({
+        label: 'ratio',
+        text: {
+            active: '{value} of {total}',
+            success: 'Perfect Score! ({value} of {total})'
+        }
+    });
+});
+
 Template.dataDisplay.events({
     'click #takeQuiz': function (){
         Session.set('currentQuiz', this._id);
@@ -61,21 +72,8 @@ Template.dataDisplay.helpers({
     }
 });
 
-Template.accuracyBar.onRendered(function () {
-    $('.dropdown').dropdown();
-    $('#accuracy').progress({
-        label: 'ratio',
-        text: {
-            active: '{value} of {total}',
-            success: 'Perfect Score! ({value} of {total})'
-        }
-    });
-});
-
-Template.quizReport.events({
-    "click .item": function () {
-        Session.set('quizSelected', Quizzes.findOne(this._id));
-    }
+Template.missList.onRendered(function () {
+    $('.table').tablesort();
 });
 
 Template.scores.helpers({
@@ -110,4 +108,10 @@ Template.quizDropdown.onRendered(function () {
             });
         }
     });
+});
+
+Template.quizReport.events({
+    "click .item": function () {
+        Session.set('quizSelected', Quizzes.findOne(this._id));
+    }
 });
