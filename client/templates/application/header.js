@@ -1,7 +1,7 @@
 Template.header.helpers({
     heading: function () {
-        var value = Session.get('currentQuiz'),
-            quiz = Quizzes.find(value).fetch();
-        return (quiz[0]) ? quiz[0].title : value;
+        var id = Session.get('currentQuiz'),
+            quiz = Quizzes.find(id).fetch();
+        return (quiz) ? quiz.title : id;
     }
 });

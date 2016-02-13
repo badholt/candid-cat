@@ -1,5 +1,14 @@
 Template.home.onRendered(function () {
-    $('.tabular.menu .item').tab('change tab', 'quizzes');
+    var id = Session.get('currentQuiz');
+    if (id) {
+        $('.tabular.menu .item').tab('change tab', 'scores');
+        var quiz = Quizzes.findOne(id);
+        Session.set('quizSelected', quiz);
+        $('#quizSelection').dropdown('set selected', quiz.title);
+        Session.set('currentQuiz', '');
+    } else {
+        $('.tabular.menu .item').tab();
+    }
 });
 
 Template.quizList.helpers({
@@ -9,7 +18,7 @@ Template.quizList.helpers({
 });
 
 Template.quizList.events({
-    "click .take-quiz": function (){
+    "click .take-quiz": function () {
         Session.set('currentQuiz', this._id);
         Session.set('questionNumber', 0);
         Session.set('report', '');

@@ -32,6 +32,12 @@ body {
   }
 }
 
+#creator {
+  .buttons .button:focus {
+    .striped;
+  }
+}
+
 #footer #quizProgress {
   margin: 0;
   width: 80%;
@@ -163,10 +169,31 @@ body {
   background-image: linear-gradient(135deg, rgba(255, 255, 255, 1) 0, rgba(190, 190, 190, 1) 50%, rgba(10, 10, 10, 1) 51%, rgba(10, 10, 10, 1) 100%);
 }
 
+.striped {
+  background-image: repeating-linear-gradient(
+          -45deg, rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0.2) 10px,
+          rgba(0, 0, 0, 0.5) 10px,
+          rgba(0, 0, 0, 0.5) 20px
+  );
+}
+
 @media only screen and (max-width: 767px) {
   body {
     border: none;
   }
+
+  #creator {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    .bottom.attached.segment > .segment {
+      border: none;
+      box-shadow: none;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
   #main-grid {
     padding: 11em 1em 0 1em;
   }

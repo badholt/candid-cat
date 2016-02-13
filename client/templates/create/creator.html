@@ -22,7 +22,7 @@
 </template>
 
 <template name="creator">
-    <div id="creator" class="ui thirteen wide centered column stacked segment">
+    <div id="creator" class="ui sixteen wide centered column stacked segment">
         <div class="ui one column grid">
             <div class="ui column">
                 <div class="ui stackable tabular top attached menu">
@@ -43,9 +43,40 @@
     </div>
 </template>
 
+<template name="findCreator">
+    <div class="ui form">
+        <div class="field">
+            <label>Text Prompt</label>
+            <textarea rows="2"></textarea>
+        </div>
+        <div class="field">
+            <label>Code Prompt</label>
+            <div class="inline fields">
+                {{> languageSelectorDropdown}}
+                <div class="ui right floated column">
+                    {{> viewSelector}}
+                </div>
+            </div>
+            {{> codeEditor}}
+        </div>
+        <div class="field">
+            <label>Difficulty</label>
+            <div class="ui compact buttons">
+                <button class="ui olive button">Easy</button>
+                <button class="ui blue button">Medium</button>
+                <button class="ui violet button">Hard</button>
+                <button class="ui red button">Very Hard</button>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template name="questionPage">
     <div class="ui bottom attached tab segment" data-tab="{{number}}">
         {{> questionTypeSelector}}
+        <div id="question-{{number}}" class="ui segment transition hidden">
+            {{> findCreator}}
+        </div>
     </div>
 </template>
 
@@ -56,26 +87,32 @@
 </template>
 
 <template name="questionTypeSelector">
-    <div class="ui center aligned header">Select a Question Type:</div>
-    <div class="ui celled fluid two column grid">
-        <div class="ui buttons column">
-            <div class="question-type ui teal fluid icon button">
-                <i class="idea icon"></i>
-                knowledge
-            </div>
-            <div class="question-type ui blue fluid icon button">
-                <i class="search icon"></i>
-                find
-            </div>
+    <div id="question-{{number}}-type" class="ui fluid styled accordion">
+        <div class="ui title">
+            Select a Question Type<i class="dropdown icon"></i>
         </div>
-        <div class="ui buttons column">
-            <div class="question-type ui orange fluid icon button">
-                <i class="wrench icon"></i>
-                fix
-            </div>
-            <div class="question-type ui green fluid icon button">
-                <i class="exchange icon"></i>
-                input/output
+        <div class="ui content">
+            <div class="ui celled fluid two column grid">
+                <div class="ui buttons column">
+                    <div class="question-type ui teal fluid icon button">
+                        <i class="idea icon"></i>
+                        knowledge
+                    </div>
+                    <div class="question-type ui blue fluid icon button">
+                        <i class="search icon"></i>
+                        find
+                    </div>
+                </div>
+                <div class="ui buttons column">
+                    <div class="question-type ui orange fluid icon button">
+                        <i class="wrench icon"></i>
+                        fix
+                    </div>
+                    <div class="question-type ui green fluid icon button">
+                        <i class="exchange icon"></i>
+                        input/output
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -50,11 +50,10 @@ Template.dataDisplay.helpers({
         } : '';
     },
     difficulty: function () {
-        console.log(this);
-        return Problems.findOne(this.questions[0]).difficulty; //currently only good for Question 0
+        var problem = Problems.findOne(this.questions[0]);
+        return (problem) ? problem.difficulty : ''; //currently only good for Question 0
     },
     fastest: function () {
-        console.log(this);
         return _.min(this.times[0]); //currently only good for Question 0
     },
     slowest: function () {
@@ -62,7 +61,7 @@ Template.dataDisplay.helpers({
     }
 });
 
-Template.dataDisplay.onRendered(function () {
+Template.accuracyBar.onRendered(function () {
     $('.dropdown').dropdown();
     $('#accuracy').progress({
         label: 'ratio',
@@ -79,7 +78,7 @@ Template.quizReport.events({
     }
 });
 
-Template.reporter.helpers({
+Template.scores.helpers({
     selection: function () {
         return Session.get('quizSelected');
     }
@@ -87,7 +86,8 @@ Template.reporter.helpers({
 
 Template.questionsDropdown.helpers({
     number: function () {
-        return Problems.findOne(this.valueOf()).number;
+        var problem = Problems.findOne(this.valueOf());
+        return (problem) ? problem.number : '';
     }
 });
 

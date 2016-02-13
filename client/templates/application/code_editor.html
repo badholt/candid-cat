@@ -1,0 +1,46 @@
+<template name="codeEditor">
+    <textarea id="code-editor-{{number}}" class="code-editor"></textarea>
+</template>
+
+<template name="languageSelectorDropdown">
+    <div class="ui right floated dropdown" number="{{number}}">
+        <div class="default text">language</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            <div class="item" data-value="css">
+                CSS
+            </div>
+            <div class="item" data-value="htmlmixed">
+                HTML (mixed)
+            </div>
+            <div class="item" data-value="javascript">
+                JavaScript
+            </div>
+            <div class="item" data-value="markdown">
+                Markdown
+            </div>
+            <div class="item" data-value="php">
+                PHP
+            </div>
+            <div class="item" data-value="python">
+                Python
+            </div>
+            <div class="item" data-value="sass">
+                SASS
+            </div>
+            <div class="item" data-value="sql">
+                SQL
+            </div>
+            <div class="item" data-value="xml">
+                XML
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="viewSelector">
+    <div class="ui slider checkbox">
+        <input type="checkbox" name="view" number="{{number}}">
+        <label><i class="moon icon"></i> view</label>
+    </div>
+</template>

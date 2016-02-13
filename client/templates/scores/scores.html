@@ -1,4 +1,4 @@
-<template name="reporter">
+<template name="scores">
     {{> quizDropdown}}
     {{#with selection}}
         {{> dataDisplay}}
@@ -13,11 +13,7 @@
         <div class="ui centered two column stackable grid">
             <div class="ui column">
                 <div class="ui row">
-                    <div id="accuracy" class="ui indicating progress"
-                         data-value="{{correct}}" data-total="{{total}}">
-                        <div class="bar"></div>
-                        <div class="label">Accuracy</div>
-                    </div>
+                    {{> accuracyBar}}
                 </div>
                 <div class="ui row">
                     <div class="ui column">
@@ -56,6 +52,14 @@
             to take it now.
         </div>
     {{/with}}
+</template>
+
+<template name="accuracyBar">
+    <div id="accuracy" class="ui indicating progress"
+         data-value="{{correct}}" data-total="{{total}}">
+        <div class="bar"></div>
+        <div class="label">Accuracy</div>
+    </div>
 </template>
 
 <template name="quizReport">

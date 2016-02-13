@@ -57,9 +57,6 @@ Template.play.events({
                 Session.set('questionNumber', next);
             } else {
                 Router.go('home');
-                Session.set('currentQuiz', '');
-                $.tab('change tab', 'scores');
-                $('#quizSelection').dropdown('set selected', this.title);
             }
         }
     },
@@ -97,7 +94,7 @@ Template.play.helpers({
         return Quizzes.findOne(Session.get('currentQuiz')).aware;
     },
     problem: function () {
-        var quiz = Quizzes.findOne(Session.get('currentQuiz'));console.log(quiz);
+        var quiz = Quizzes.findOne(Session.get('currentQuiz'));
         return (quiz) ? Problems.findOne(quiz.questions[Session.get('questionNumber')]) : '';
     },
     timer: function () {
