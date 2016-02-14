@@ -1,5 +1,21 @@
+<template name="answerCode">
+    <textarea id="answer-code-{{number}}" class="answer-code" rows="2" name="answer-code"
+              number="{{number}}"></textarea>
+</template>
+
 <template name="codeEditor">
-    <textarea id="code-editor-{{number}}" class="code-editor"></textarea>
+    <textarea id="code-editor-{{number}}" class="code-editor" name="code-prompt" number="{{number}}"></textarea>
+</template>
+
+<template name="delimiterSelection">
+    <div class="six wide field">
+        <div class="ui inline right labeled input">
+            <input type="text" name="delimiter" placeholder="delimiter (default comma)">
+            <a class="ui pink tag label">
+                delimiter
+            </a>
+        </div>
+    </div>
 </template>
 
 <template name="languageSelectorDropdown">

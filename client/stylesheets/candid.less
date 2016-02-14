@@ -33,8 +33,17 @@ body {
 }
 
 #creator {
-  .buttons .button:focus {
-    .striped;
+  .buttons .button {
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -ms-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+    -webkit-transition-property: background-image;
+    -moz-transition-property: background-image;
+    -ms-transition-property: background-image;
+    -o-transition-property: background-image;
+    transition-property: background-image;
   }
 }
 
@@ -175,7 +184,7 @@ body {
           rgba(0, 0, 0, 0.2) 10px,
           rgba(0, 0, 0, 0.5) 10px,
           rgba(0, 0, 0, 0.5) 20px
-  );
+  ) !important;
 }
 
 @media only screen and (max-width: 767px) {
@@ -184,6 +193,7 @@ body {
   }
 
   #creator {
+    overflow-y: auto;
     padding-left: 0.5em;
     padding-right: 0.5em;
     .bottom.attached.segment > .segment {
