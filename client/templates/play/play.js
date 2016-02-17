@@ -57,6 +57,7 @@ Template.play.events({
                 Session.set('questionNumber', next);
             } else {
                 Router.go('home');
+                Session.set('currentQuiz', '');
             }
         }
     },

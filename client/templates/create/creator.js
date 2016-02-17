@@ -1,83 +1,102 @@
-Template.creatorLaunch.events({
-    'submit #launchCreator': function (event) {
-        event.preventDefault();
-        var values = $('.ui.form').form('get values');
-        Session.set('currentQuiz', {
-            aware: true,
-            creationDate: new Date(),
-            owner: values.org,
-            questions: [],
-            title: values.title
-        });
-        Session.set('questionNumber', 0);
-        Router.go('create');
-    }
-});
-
 Template.creator.events({
     'click #addQuestion': function (event) {
-        var number = Session.get('questionNumber') + 1;
-        Session.set('questionNumber', number);
+        var id = this._id,
+            quiz = Quizzes.findOne(id),
+            problem = {
+                answers: [],
+                code: '',
+                created: new Date(),
+                difficulty: '',
+                owner: Meteor.userId(),
+                language: '',
+                number: quiz.questions.length,
+                prompt: '',
+                type: ''
+            };
+        Meteor.call('addProblem', problem, function (error, result) {
+            if (!error) {
+                Meteor.call('updateQuiz', id, quiz.organization, [result], quiz.title);
+            }
+        });
     },
     'click .question-type': function (event) {
-        var question = Session.get('report');
-        question[this.number]['type'] = $(event.target)
+        var problem = Problems.findOne(this.question._id);
+        problem['type'] = $(event.target)
             .closest('.button').context.innerText.replace(' ', '');
-        Session.set('report', question);
-        $('#question-' + this.number + '-type').accordion('close', 0);
-        $('#question-' + this.number).transition('horizontal flip in');
+        Meteor.call('updateProblem', problem);
+        $('#question-' + this.question.number + '-type').accordion('close', 0);
+        $('#question-' + this.question.number).transition('horizontal flip in');
     }
 });
 
 Template.creator.helpers({
     newQuestions: function () {
-        return _.map(_.range(Session.get('questionNumber') + 1), function (number) {
-            return {number: number};
+        return _.map(this.questions, function (value) {
+            return {_id: value};
         });
+    }
+});
+
+Template.creator.onRendered(function () {
+    if (!Session.get('currentQuiz')) {
+        Meteor.call('addQuiz', [], '', '', function (error, result) {
+            Session.set('currentQuiz', result);
+        });
+    }
+});
+
+Template.infoPage.events({
+    "keyup input[name='title']": function (event) {
+        var id = Session.get('currentQuiz');
+        Meteor.call('updateQuiz', id, Quizzes.findOne(id).organization, [], event.target.value);
+    },
+    "keyup input[name='org']": function (event) {
+        var id = Session.get('currentQuiz');
+        Meteor.call('updateQuiz', id, event.target.value, [], Quizzes.findOne(id).title);
+    }
+});
+
+Template.creator.helpers({
+    quiz: function () {
+        return Quizzes.findOne(Session.get('currentQuiz'));
+    }
+});
+
+Template.questionPage.events({
+    "keyup textarea[name='text-prompt']": function (event) {
+        this.question['prompt'] = event.target.value;
+        Meteor.call('updateProblem', this.question);
     }
 });
 
 Template.questionPage.helpers({
     question: function () {
-        return Session.get('report')[this.number];
+        return Problems.findOne(this._id);
     }
 });
 
-Template.questionPage.onRendered(function () {
-    var number = Session.get('questionNumber'),
-        question = Session.get('report');
-    console.log(question);
-    question = (question) ? question : [];
-    console.log(question);
-    question.push(
-        {
-            answers: [],
-            code: '',
-            created: new Date(),
-            difficulty: '',
-            owner: Meteor.userId(),
-            language: '',
-            number: number,
-            prompt: '',
-            type: ''
-        }
-    );
-    console.log(question);
-    Session.set('report', question);
+Template.questionTab.helpers({
+    number: function () {
+        return Problems.findOne(this._id).number;
+    }
 });
 
 Template.questionTab.onRendered(function () {
-    $('.tabular.menu .item').tab('change tab', Session.get('questionNumber').toString());
+    $('.tabular.menu .item').tab('change tab', Problems.findOne(this.data._id).number);
 });
 
 Template.questionTypeSelector.onRendered(function () {
-    $('#question-' + this.data.number + '-type').accordion('open', 0);
+    $('#question-' + this.data.question.number + '-type').accordion('open', 0);
 });
 
 Template.submissionRow.events({
     'click .difficulty .button': function (event) {
-        var question = Session.get('report');
-        question[this.number]['difficulty'] = $(event.target).attr('data-value');
-        Session.set('report', question);
+        console.log(this);
+        this.question['difficulty'] = $(event.target).attr('data-value');
+        Meteor.call('updateProblem', this.question);
+    },
+    'click #submitQuestions': function (event) {
+        Router.go('home');
+        Session.set('currentQuiz', '');
     }
 });

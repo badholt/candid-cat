@@ -2,15 +2,12 @@
     <div id="main-segment" class="ui thirteen wide centered column stacked segment">
         <div class="ui right floated one column grid">
             <div class="ui column">
-                <div class="ui four item stackable tabular top attached menu">
+                <div class="ui three item stackable tabular top attached menu">
                     <a class="ui tab active item" data-tab="quizzes">
                         Available Quizzes
                     </a>
                     <a class="ui tab item" data-tab="scores">
                         Review Scores
-                    </a>
-                    <a class="ui tab item" data-tab="create">
-                        Create Quiz
                     </a>
                     <a class="ui tab item" data-tab="profile">
                         Edit Profile
@@ -22,9 +19,6 @@
                 <div class="ui bottom attached tab segment" data-tab="scores">
                     {{> scores}}
                 </div>
-                <div class="ui bottom attached tab segment" data-tab="create">
-                    {{> creatorLaunch}}
-                </div>
                 <div class="ui bottom attached tab segment" data-tab="profile">
                     {{> userCard}}
                 </div>
@@ -34,6 +28,22 @@
 </template>
 
 <template name="quizList">
+    <div class="ui header">
+        My Quizzes
+    </div>
+    <div class="ui middle aligned divided relaxed list">
+        {{#each myQuizzes}}
+            {{> quizItem}}
+        {{/each}}
+        <div class="ui item">
+            <a id="add-quiz" class="ui right floated content">
+                <i class="add icon"></i> Create New Quiz
+            </a>
+        </div>
+    </div>
+    <div class="ui header">
+        All Quizzes
+    </div>
     <div class="ui middle aligned divided relaxed list">
         {{#each quizzes}}
             {{> quizItem}}
@@ -44,12 +54,15 @@
 <template name="quizItem">
     <div class="item">
         <div class="right floated content">
-            <div class="take-quiz ui button">take quiz</div>
+            {{#if $eq owner currentUser._id}}
+                <div class="edit-quiz ui button">edit quiz</div>
+            {{/if}}
+            <div class="black take-quiz ui button">take quiz</div>
         </div>
-        <i class="large {{#if aware}}clock{{else}}github{{/if}} middle aligned icon"></i>
+        <i class="large {{#if aware}}clock{{else}}pencil{{/if}} middle aligned icon"></i>
         <div class="content">
             <a class="header">{{title}}</a>
-            <div class="description">Created on {{creationDate}}</div>
+            <div class="description">Created on {{created}}</div>
         </div>
     </div>
 </template>

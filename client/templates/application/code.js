@@ -1,6 +1,6 @@
 Template.answerCode.onRendered(function () {
     var code = CodeMirror.fromTextArea(
-        this.find('#answer-code-' + this.data.number), {
+        this.find('#answer-code-' + this.data.question.number), {
             lineNumbers: true,
             theme: 'lesser-dark'
         });
@@ -9,37 +9,40 @@ Template.answerCode.onRendered(function () {
         var form = $('.form').form('get values'),
             delimiter = (form.delimiter) ? form.delimiter : ',',
             number = $(cm.getTextArea()).attr('number'),
-            question = Session.get('report');
-        question[number]['answers'] = cm.getValue().split(delimiter);
-        Session.set('report', question);
+            questions = Quizzes.findOne(Session.get('currentQuiz')).questions,
+            problem = Problems.findOne(questions[number]);
+        problem['answers'] = cm.getValue().split(delimiter);
+        Meteor.call('updateProblem', problem);
     });
-    document.getElementById('answer-code-' + this.data.number).editor = code;
+    document.getElementById('answer-code-' + this.data.question.number).editor = code;
 });
 
 Template.codeEditor.onRendered(function () {
     var code = CodeMirror.fromTextArea(
-        this.find('#code-editor-' + this.data.number), {
+        this.find('#code-editor-' + this.data.question.number), {
             lineNumbers: true,
             theme: 'lesser-dark'
         });
     code.on("change", function (cm, change) {
         var number = $(cm.getTextArea()).attr('number'),
-            question = Session.get('report');
-        question[number]['code'] = cm.getValue();
-        Session.set('report', question);
+            questions = Quizzes.findOne(Session.get('currentQuiz')).questions,
+            problem = Problems.findOne(questions[number]);
+        problem['code'] = cm.getValue();
+        Meteor.call('updateProblem', problem);
     });
-    document.getElementById('code-editor-' + this.data.number).editor = code;
+    document.getElementById('code-editor-' + this.data.question.number).editor = code;
 });
 
 Template.languageSelectorDropdown.onRendered(function () {
     $('.dropdown').dropdown({
         onChange: function (value) {
-            var number = $(this).attr('number');
+            var number = $(this).attr('number'),
+                questions = Quizzes.findOne(Session.get('currentQuiz')).questions,
+                problem = Problems.findOne(questions[number]);
             document.getElementById('code-editor-' + number).editor.setOption('mode', value);
             document.getElementById('answer-code-' + number).editor.setOption('mode', value);
-            var question = Session.get('report');
-            question[number]['language'] = value;
-            Session.set('report', question);
+            problem['language'] = value;
+            Meteor.call('updateProblem', problem);
         }
     });
 });

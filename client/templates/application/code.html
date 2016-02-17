@@ -1,10 +1,10 @@
 <template name="answerCode">
-    <textarea id="answer-code-{{number}}" class="answer-code" rows="2" name="answer-code"
-              number="{{number}}"></textarea>
+    <textarea id="answer-code-{{question.number}}" class="answer-code" rows="2" name="answer-code"
+              number="{{question.number}}"></textarea>
 </template>
 
 <template name="codeEditor">
-    <textarea id="code-editor-{{number}}" class="code-editor" name="code-prompt" number="{{number}}"></textarea>
+    <textarea id="code-editor-{{question.number}}" class="code-editor" name="code-prompt" number="{{question.number}}"></textarea>
 </template>
 
 <template name="delimiterSelection">
@@ -19,7 +19,7 @@
 </template>
 
 <template name="languageSelectorDropdown">
-    <div class="ui right floated dropdown" number="{{number}}">
+    <div class="ui right floated dropdown" number="{{question.number}}">
         <div class="default text">language</div>
         <i class="dropdown icon"></i>
         <div class="menu">
@@ -56,7 +56,7 @@
 
 <template name="viewSelector">
     <div class="ui slider checkbox">
-        <input type="checkbox" name="view" number="{{number}}">
+        <input type="checkbox" name="view" number="{{question.number}}">
         <label><i class="moon icon"></i> view</label>
     </div>
 </template>
