@@ -26,7 +26,7 @@
     <div id="findForm" class="ui form">
         <div class="field">
             <label>Text Prompt</label>
-            <textarea name="text-prompt" rows="2"></textarea>
+            <textarea name="text-prompt" rows="2" value="{{question.prompt}}"></textarea>
         </div>
         <div class="field">
             <label>Code Prompt</label>
@@ -45,7 +45,7 @@
             </div>
             {{> answerCode question=question}}
         </div>
-        {{> submissionRow}}
+        {{> submissionRow question=question}}
     </div>
 </template>
 
@@ -79,18 +79,18 @@
         <div class="inline fields column">
             <label>Difficulty</label>
             <div class="difficulty ui compact buttons">
-                <button class="ui {{#if $eq difficulty 'olive'}}striped{{/if}} olive button" data-value="olive">Easy
+                <button class="ui {{#if $eq question.difficulty 'olive'}}striped{{/if}} olive button" data-value="olive">Easy
                 </button>
-                <button class="ui {{#if $eq difficulty 'blue'}}striped{{/if}} blue button" data-value="blue">Medium
+                <button class="ui {{#if $eq question.difficulty 'blue'}}striped{{/if}} blue button" data-value="blue">Medium
                 </button>
-                <button class="ui {{#if $eq difficulty 'violet'}}striped{{/if}} violet button" data-value="violet">
+                <button class="ui {{#if $eq question.difficulty 'violet'}}striped{{/if}} violet button" data-value="violet">
                     Hard
                 </button>
-                <button class="ui {{#if $eq difficulty 'red'}}striped{{/if}} red button" data-value="red">Very Hard
+                <button class="ui {{#if $eq question.difficulty 'red'}}striped{{/if}} red button" data-value="red">Very Hard
                 </button>
             </div>
         </div>
-        {{#if $.Session.equals 'questionNumber' number}}
+        {{#if last}}
             {{> submitButton}}
         {{/if}}
     </div>

@@ -100,3 +100,9 @@ Template.submissionRow.events({
         Session.set('currentQuiz', '');
     }
 });
+
+Template.submissionRow.helpers({
+    last: function () {
+        console.log(this);
+    }
+});

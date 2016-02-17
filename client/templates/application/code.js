@@ -15,6 +15,10 @@ Template.answerCode.onRendered(function () {
         Meteor.call('updateProblem', problem);
     });
     document.getElementById('answer-code-' + this.data.question.number).editor = code;
+    if (this.data.question.answers) {
+        document.getElementById('answer-code-' + this.data.question.number)
+            .editor.setOption('value', this.data.question.answers.toString());
+    }
 });
 
 Template.codeEditor.onRendered(function () {
@@ -34,17 +38,27 @@ Template.codeEditor.onRendered(function () {
 });
 
 Template.languageSelectorDropdown.onRendered(function () {
-    $('.dropdown').dropdown({
+    var dropdown = $('.ui.dropdown');
+    dropdown.dropdown({
         onChange: function (value) {
             var number = $(this).attr('number'),
                 questions = Quizzes.findOne(Session.get('currentQuiz')).questions,
                 problem = Problems.findOne(questions[number]);
-            document.getElementById('code-editor-' + number).editor.setOption('mode', value);
-            document.getElementById('answer-code-' + number).editor.setOption('mode', value);
+            var code = document.getElementById('code-editor-' + number).editor;
+            if (code) {
+                code.setOption('mode', value);
+            }
+            var answers = document.getElementById('answer-code-' + number).editor;
+            if (answers) {
+                answers.setOption('mode', value);
+            }
             problem['language'] = value;
             Meteor.call('updateProblem', problem);
         }
     });
+    if (this.data.question.language) {
+        dropdown.dropdown('set selected', this.data.question.language);
+    }
 });
 
 Template.viewSelector.onRendered(function () {
