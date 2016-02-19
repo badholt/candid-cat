@@ -1,22 +1,24 @@
 <template name="play">
     <div id="main-segment" class="ui thirteen wide centered column stacked segment">
         <div id="quiz" class="ui form">
-            {{#with problem}}
-                {{> question}}
-                {{#if aware}}<h1 id="timer" class="ui header"></h1>{{/if}}
-                <div class="ui centered stackable grid">
-                    <div class="row">
-                        {{#if $eq type 'find'}}
-                            {{> find}}
-                        {{else}}
-                            {{> fix}}
+            {{#each problems}}
+                {{#if $.Session.equals 'questionNumber' number}}
+                    {{> question}}
+                    {{#if aware}}<h1 id="timer" class="ui header"></h1>{{/if}}
+                    <div class="ui centered stackable grid">
+                        <div class="row">
+                            {{#if $eq type 'find'}}
+                                {{> find}}
+                            {{else}}
+                                {{> fix}}
+                            {{/if}}
+                        </div>
+                        {{#if $.Session.get 'answered'}}
+                            <div class="row">{{> controls}}</div>
                         {{/if}}
                     </div>
-                    {{#if $.Session.get 'answered'}}
-                        <div class="row">{{> controls}}</div>
-                    {{/if}}
-                </div>
-            {{/with}}
+                {{/if}}
+            {{/each}}
         </div>
     </div>
 </template>
@@ -35,8 +37,8 @@
 </template>
 
 <template name="codePrompt">
-    <pre id="pre-prompt">
-    <code id="code-prompt"
+    <pre id="pre-prompt-{{number}}">
+    <code id="code-prompt-{{number}}"
           class="{{#if $eq language 'htmlmixed'}}language-html{{else}}{{language}}{{/if}}">
         {{code}}
     </code>
@@ -53,9 +55,7 @@
 
 <template name="find">
     <div class="ui twelve wide column">
-        {{#if $.Session.get 'running'}}
-            {{> codePrompt}}
-        {{/if}}
+        {{> codePrompt}}
         {{#if $.Session.get 'answered'}}
             {{> answer}}
         {{/if}}

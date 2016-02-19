@@ -1,13 +1,5 @@
 var timer;
 
-/*Template.codePrompt.onCreated(function () {
-    var instance = this;
-    instance.autorun(function () {
-        Session.get('currentQuestion');
-        hljs.highlightBlock($('#code-prompt')[0]);
-    });
-});*/
-
 Template.answer.onRendered(function () {
     var answerBox = $('#selected-code');
     answerBox.text(Session.get('answered'));
@@ -65,23 +57,19 @@ Template.play.events({
             if (next < Quizzes.findOne(Session.get('currentQuiz')).questions.length) {
                 var codePrompt = $('#code-prompt');
                 //codePrompt.empty().removeClass();
-                Session.set('questionNumber', next);
                 Session.set('running', false);
+                Session.set('questionNumber', next);
                 Session.set('answered', false);
-                Session.set('running', true);
-                var language = (this.language === 'htmlmixed') ? 'language-html' : this.language;
-                codePrompt.empty().removeClass().addClass(language);
-                console.log(language);
             } else {
                 Router.go('home');
                 //Session.set('currentQuiz', '');
             }
         }
     },
-    "click #code-prompt > span": function (event) {
+    "click code > span": function (event) {
         var target = $(event.target),
             targetClass = target.context.className,
-            selected = (target.context.className != 'hljs-tag' && target.context.className != 'hljs-keyword') ? target.parent() : target,
+            selected = (targetClass != 'hljs-tag' && targetClass != 'hljs-keyword') ? target.parent() : target,
             tag = selected.clone().wrap('<p>').parent().html();
         Session.set('answered', $(tag).text());
         var answerBox = $('#selected-code');
@@ -117,6 +105,10 @@ Template.play.helpers({
         var quiz = Quizzes.findOne(Session.get('currentQuiz'));
         return (quiz) ? quiz.problem() : '';
     },
+    problems: function () {
+        var quiz = Quizzes.findOne(Session.get('currentQuiz'));
+        return (quiz) ? quiz.problems() : '';
+    },
     timer: function () {
         return timer.getTime();
     }
@@ -128,12 +120,7 @@ Template.find.onRendered(function () {
     timer = $('#timer').FlipClock({
         clockFace: 'MinuteCounter'
     });
-    var codePrompt = $('#code-prompt'),
+    var codePrompt = $('#code-prompt-' + this.data.number),
         language = (this.data.language === 'htmlmixed') ? 'language-html' : this.data.language;
-
-    /* Handle first render: */
-    //answerBox.addClass(language);
-    //codePrompt.addClass(language);
-    console.log(this, language);
     hljs.highlightBlock(codePrompt[0]);
 });
