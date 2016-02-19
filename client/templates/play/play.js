@@ -86,7 +86,7 @@ Template.play.events({
             var target = $(event.target),
                 targetClass = target.context.className,
                 selected = (targetClass != 'hljs-tag' && targetClass != 'hljs-keyword') ? target.parent() : target,
-                tag = selected.clone().wrap('<p>').parent().html();
+                tag = selected.clone().wrap('<p>').parent().html();console.log(target, tag);
             answerBox.text(answerBox.text().replace($(tag).text(), ''));
             if (answerBox.text() != '') {
                 hljs.highlightBlock(answerBox[0]);
