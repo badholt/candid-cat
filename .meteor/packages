@@ -39,3 +39,5 @@ accounts-github
 perak:codemirror
 velocityjs:velocityjs
 reactive-var
+dburles:collection-helpers
+aldeed:template-extension

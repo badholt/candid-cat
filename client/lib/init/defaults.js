@@ -3,6 +3,7 @@ Meteor.startup(function () {
     Session.setDefault('currentQuiz', '');
     Session.setDefault('questionNumber', 0);
     Session.setDefault('report', '');
+    Session.setDefault('running', true);
     Session.setDefault('signUp', false);
 
     Transitioner.default({

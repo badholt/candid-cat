@@ -1,0 +1,26 @@
+<template name="findCreator">
+    <div id="findForm" class="ui form">
+        <div class="field">
+            <label>Text Prompt</label>
+            <textarea name="text-prompt" rows="2" value="{{prompt}}"></textarea>
+        </div>
+        <div class="field">
+            <label>Code Prompt</label>
+            <div class="inline fields">
+                {{> languageSelectorDropdown}}
+                <div class="ui right floated column">
+                    {{> viewSelector}}
+                </div>
+            </div>
+            {{> codeEditor}}
+        </div>
+        <div class="field">
+            <div class="inline fields">
+                <label>Answers</label>
+                {{> delimiterSelection}}
+            </div>
+            {{> answerCode}}
+        </div>
+        {{> submissionRow}}
+    </div>
+</template>

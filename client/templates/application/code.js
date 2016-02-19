@@ -1,6 +1,6 @@
 Template.answerCode.onRendered(function () {
     var code = CodeMirror.fromTextArea(
-        this.find('#answer-code-' + this.data.question.number), {
+        this.find('#answer-code-' + this.data.number), {
             lineNumbers: true,
             theme: 'lesser-dark'
         });
@@ -14,16 +14,16 @@ Template.answerCode.onRendered(function () {
         problem['answers'] = cm.getValue().split(delimiter);
         Meteor.call('updateProblem', problem);
     });
-    document.getElementById('answer-code-' + this.data.question.number).editor = code;
-    if (this.data.question.answers) {
-        document.getElementById('answer-code-' + this.data.question.number)
-            .editor.setOption('value', this.data.question.answers.toString());
+    document.getElementById('answer-code-' + this.data.number).editor = code;
+    if (this.data.answers) {
+        document.getElementById('answer-code-' + this.data.number)
+            .editor.setOption('value', this.data.answers.toString());
     }
 });
 
 Template.codeEditor.onRendered(function () {
     var code = CodeMirror.fromTextArea(
-        this.find('#code-editor-' + this.data.question.number), {
+        this.find('#code-editor-' + this.data.number), {
             lineNumbers: true,
             theme: 'lesser-dark'
         });
@@ -34,7 +34,7 @@ Template.codeEditor.onRendered(function () {
         problem['code'] = cm.getValue();
         Meteor.call('updateProblem', problem);
     });
-    document.getElementById('code-editor-' + this.data.question.number).editor = code;
+    document.getElementById('code-editor-' + this.data.number).editor = code;
 });
 
 Template.languageSelectorDropdown.onRendered(function () {
@@ -56,8 +56,8 @@ Template.languageSelectorDropdown.onRendered(function () {
             Meteor.call('updateProblem', problem);
         }
     });
-    if (this.data.question.language) {
-        dropdown.dropdown('set selected', this.data.question.language);
+    if (this.data.language) {
+        dropdown.dropdown('set selected', this.data.language);
     }
 });
 

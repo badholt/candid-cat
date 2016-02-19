@@ -29,7 +29,7 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
     margin-right: 0.5em !important;
 }
 
-.hljs-tag:hover {
+.hljs span:hover {
     background: #ddd !important;
     color: black !important;
     cursor: help;

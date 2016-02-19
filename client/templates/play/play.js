@@ -1,5 +1,13 @@
 var timer;
 
+/*Template.codePrompt.onCreated(function () {
+    var instance = this;
+    instance.autorun(function () {
+        Session.get('currentQuestion');
+        hljs.highlightBlock($('#code-prompt')[0]);
+    });
+});*/
+
 Template.answer.onRendered(function () {
     var answerBox = $('#selected-code');
     answerBox.text(Session.get('answered'));
@@ -7,12 +15,13 @@ Template.answer.onRendered(function () {
 });
 
 Template.play.events({
-    "click #nextQuestion": function () {
+    "click #nextQuestion": function (event) {
         var accuracy = [],
+            answerBox = $('#selected-code'),
             answers = [],
             checklist = this.answers.slice(0),
             report,
-            selected = $('#selected-code').text().match(/<[^> ]+[^>]*>[^<]*/g),
+            selected = answerBox.text().match(/<[^> ]+[^>]*>[^<]*/g),
             time = timer.getTime().time;
         _.each(selected, function (response) {
             var correct = false;
@@ -54,16 +63,25 @@ Template.play.events({
             var next = Session.get('questionNumber') + 1;
             $('#quizProgress').progress('increment');
             if (next < Quizzes.findOne(Session.get('currentQuiz')).questions.length) {
+                var codePrompt = $('#code-prompt');
+                //codePrompt.empty().removeClass();
                 Session.set('questionNumber', next);
+                Session.set('running', false);
+                Session.set('answered', false);
+                Session.set('running', true);
+                var language = (this.language === 'htmlmixed') ? 'language-html' : this.language;
+                codePrompt.empty().removeClass().addClass(language);
+                console.log(language);
             } else {
                 Router.go('home');
-                Session.set('currentQuiz', '');
+                //Session.set('currentQuiz', '');
             }
         }
     },
-    "click #code-prompt .hljs-tag": function (e) {
-        var target = $(e.target),
-            selected = (target.context.className != 'hljs-tag') ? target.parent() : target,
+    "click #code-prompt > span": function (event) {
+        var target = $(event.target),
+            targetClass = target.context.className,
+            selected = (target.context.className != 'hljs-tag' && target.context.className != 'hljs-keyword') ? target.parent() : target,
             tag = selected.clone().wrap('<p>').parent().html();
         Session.set('answered', $(tag).text());
         var answerBox = $('#selected-code');
@@ -74,11 +92,12 @@ Template.play.events({
             }
         }
     },
-    "click #selected-code .hljs-tag": function (e) {
+    "click #selected-code > span": function (event) {
         var answerBox = $('#selected-code');
         if (answerBox[0]) {
-            var target = $(e.target),
-                selected = (target.context.className != 'hljs-tag') ? target.parent() : target,
+            var target = $(event.target),
+                targetClass = target.context.className,
+                selected = (targetClass != 'hljs-tag' && targetClass != 'hljs-keyword') ? target.parent() : target,
                 tag = selected.clone().wrap('<p>').parent().html();
             answerBox.text(answerBox.text().replace($(tag).text(), ''));
             if (answerBox.text() != '') {
@@ -96,7 +115,7 @@ Template.play.helpers({
     },
     problem: function () {
         var quiz = Quizzes.findOne(Session.get('currentQuiz'));
-        return (quiz) ? Problems.findOne(quiz.questions[Session.get('questionNumber')]) : '';
+        return (quiz) ? quiz.problem() : '';
     },
     timer: function () {
         return timer.getTime();
@@ -105,9 +124,16 @@ Template.play.helpers({
 
 Template.find.onRendered(function () {
     Session.set("answered", false);
-    $('#selected-code').text("");
-    hljs.highlightBlock($('#code-prompt')[0]);
+    this.$('#selected-code').text("");
     timer = $('#timer').FlipClock({
         clockFace: 'MinuteCounter'
     });
+    var codePrompt = $('#code-prompt'),
+        language = (this.data.language === 'htmlmixed') ? 'language-html' : this.data.language;
+
+    /* Handle first render: */
+    //answerBox.addClass(language);
+    //codePrompt.addClass(language);
+    console.log(this, language);
+    hljs.highlightBlock(codePrompt[0]);
 });

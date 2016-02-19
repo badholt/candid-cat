@@ -26,11 +26,21 @@
         <pre class="ui segment">
             <label class="ui two inline fields">
                 <div class="ui center aligned header field">Your current answer* is:</div>
-                <code id="selected-code" class="language-html ui field"></code>
+                <code id="selected-code"
+                      class="field {{#if $eq language 'htmlmixed'}}language-html{{else}}{{language}}{{/if}}"></code>
             </label>
             <label class="ui bottom attached label">* Your answer is not final until you click 'continue'</label>
         </pre>
     </div>
+</template>
+
+<template name="codePrompt">
+    <pre id="pre-prompt">
+    <code id="code-prompt"
+          class="{{#if $eq language 'htmlmixed'}}language-html{{else}}{{language}}{{/if}}">
+        {{code}}
+    </code>
+    </pre>
 </template>
 
 <template name="controls">
@@ -43,11 +53,9 @@
 
 <template name="find">
     <div class="ui twelve wide column">
-        <pre id="pre-prompt">
-            <code id="code-prompt" class="language-html">
-                {{code}}
-            </code>
-        </pre>
+        {{#if $.Session.get 'running'}}
+            {{> codePrompt}}
+        {{/if}}
         {{#if $.Session.get 'answered'}}
             {{> answer}}
         {{/if}}
