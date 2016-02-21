@@ -4,6 +4,9 @@ Template.answer.onRendered(function () {
     var answerBox = $('#selected-code');
     answerBox.text(Session.get('answered'));
     hljs.highlightBlock(answerBox[0]);
+    answerBox.contents().filter(function () {
+        return this.nodeType === 3
+    }).wrap('<span class="variable-name"></span>');
 });
 
 Template.play.events({
@@ -13,10 +16,10 @@ Template.play.events({
             answers = [],
             checklist = this.answers.slice(0),
             report,
-            selected = answerBox.text().match(/<[^> ]+[^>]*>[^<]*/g),
             time = timer.getTime().time;
-        _.each(selected, function (response) {
+        _.each(answerBox.children(), function (response) {
             var correct = false;
+            response = $(response).text();
             for (var i in this.answers) {
                 if (this.answers.hasOwnProperty(i)) {
                     var answer = this.answers[i];
@@ -55,28 +58,24 @@ Template.play.events({
             var next = Session.get('questionNumber') + 1;
             $('#quizProgress').progress('increment');
             if (next < Quizzes.findOne(Session.get('currentQuiz')).questions.length) {
-                var codePrompt = $('#code-prompt');
-                //codePrompt.empty().removeClass();
                 Session.set('running', false);
                 Session.set('questionNumber', next);
                 Session.set('answered', false);
             } else {
                 Router.go('home');
-                //Session.set('currentQuiz', '');
             }
         }
     },
     "click code > span": function (event) {
         var target = $(event.target),
             targetClass = target.context.className,
-            selected = (targetClass != 'hljs-tag' && targetClass != 'hljs-keyword') ? target.parent() : target,
+            selected = (targetClass !== 'hljs-title') ? target : target.parent(),
             tag = selected.clone().wrap('<p>').parent().html();
         Session.set('answered', $(tag).text());
         var answerBox = $('#selected-code');
         if (answerBox[0]) {
             if (!answerBox.html().includes(tag)) {
-                answerBox.text(answerBox.text() + $(tag).text());
-                hljs.highlightBlock(answerBox[0]);
+                answerBox.append(tag);
             }
         }
     },
@@ -85,12 +84,14 @@ Template.play.events({
         if (answerBox[0]) {
             var target = $(event.target),
                 targetClass = target.context.className,
-                selected = (targetClass != 'hljs-tag' && targetClass != 'hljs-keyword') ? target.parent() : target,
-                tag = selected.clone().wrap('<p>').parent().html();console.log(target, tag);
-            answerBox.text(answerBox.text().replace($(tag).text(), ''));
-            if (answerBox.text() != '') {
-                hljs.highlightBlock(answerBox[0]);
-            } else {
+                selected = (targetClass !== 'hljs-title') ? target : target.parent(),
+                tag = selected.clone().wrap('<p>').parent().html();
+            _.each(answerBox.children(), function (child) {
+                if ($(child).text() === $(tag).text()) {
+                    child.remove();
+                }
+            });
+            if (answerBox.text() === '') {
                 Session.set('answered', false);
             }
         }
@@ -123,4 +124,9 @@ Template.find.onRendered(function () {
     var codePrompt = $('#code-prompt-' + this.data.number),
         language = (this.data.language === 'htmlmixed') ? 'language-html' : this.data.language;
     hljs.highlightBlock(codePrompt[0]);
+    $('.hljs').html(function (_, html) {
+        return html.replace(/(?:span\>)\s(?!abc)\w+/g, function (match) {
+            return 'span> <span class="variable-name">' + match.replace('span> ', '') + '</span>';
+        });
+    });
 });

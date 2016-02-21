@@ -67,7 +67,7 @@
 <template name="questionPage">
     <div class="ui bottom attached tab segment" data-tab="{{number}}">
         {{> questionTypeSelector}}
-        <div id="question-{{number}}" class="ui segment transition hidden">
+        <div id="question-{{number}}" class="ui segment {{#unless type}}transition hidden{{/unless}}">
             {{#if $eq type 'find'}}
                 {{> findCreator}}
             {{/if}}

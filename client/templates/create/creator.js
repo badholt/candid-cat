@@ -1,6 +1,5 @@
 Template.creator.events({
     'click #addQuestion': function (event) {
-        console.log(this);
         var id = this._id,
             quiz = Quizzes.findOne(id),
             problem = {
@@ -55,7 +54,11 @@ Template.questionTab.onRendered(function () {
 });
 
 Template.questionTypeSelector.onRendered(function () {
-    $('#question-' + this.data.number + '-type').accordion('open', 0);
+    if (!this.data.type) {
+        $('#question-' + this.data.number + '-type').accordion('open', 0);
+    } else {
+        $('#question-' + this.data.number + '-type').accordion();
+    }
 });
 
 Template.submissionRow.events({
