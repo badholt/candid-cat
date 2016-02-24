@@ -41,6 +41,9 @@ Template.languageSelectorDropdown.onRendered(function () {
     var dropdown = $('.ui.dropdown');
     dropdown.dropdown({
         onChange: function (value) {
+            /*var number = $(this).attr('number'),
+             questions = Quizzes.findOne(Session.get('currentQuiz')).problems(),
+             problem = questions[number];console.log(Quizzes.findOne(Session.get('currentQuiz')).problems());*/
             var number = $(this).attr('number'),
                 questions = Quizzes.findOne(Session.get('currentQuiz')).questions,
                 problem = Problems.findOne(questions[number]);
@@ -48,9 +51,12 @@ Template.languageSelectorDropdown.onRendered(function () {
             if (code) {
                 code.setOption('mode', value);
             }
-            var answers = document.getElementById('answer-code-' + number).editor;
-            if (answers) {
-                answers.setOption('mode', value);
+            var answerBox = document.getElementById('answer-code-' + number);
+            if (answerBox) {
+                var answers = answerBox.editor;
+                if (answers) {
+                    answers.setOption('mode', value);
+                }
             }
             problem['language'] = value;
             Meteor.call('updateProblem', problem);

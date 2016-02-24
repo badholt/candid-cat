@@ -1,5 +1,4 @@
 Template.accuracyBar.onRendered(function () {
-    $('.dropdown').dropdown();
     $('#accuracy').progress({
         label: 'ratio',
         text: {
@@ -10,7 +9,7 @@ Template.accuracyBar.onRendered(function () {
 });
 
 Template.dataDisplay.events({
-    'click #takeQuiz': function (){
+    'click #takeQuiz': function () {
         Session.set('currentQuiz', this._id);
         Session.set('questionNumber', 0);
         Session.set('report', '');
@@ -21,14 +20,16 @@ Template.dataDisplay.events({
 Template.dataDisplay.helpers({
     calculations: function () {
         var misses = [],
+            number = Session.get('questionNumber').toString().split(','),
             numbers = [],
-            questions = this.questions,
+            questions = (number) ? this.selectedQuestions(number) : this.questions,
             times = [],
             totalCorrect = 0,
             totalAttempts = 0;
+
         _.each(questions, function (id) {
-            var question = Problems.find(id).fetch()[0];
-            var report = Reports.find({"problem": id}).fetch()[0];
+            var question = Problems.findOne(id);
+            var report = Reports.findOne({"problem": id});
             if (report) {
                 for (var i in report.accuracy) {
                     if (report.accuracy.hasOwnProperty(i)) {
@@ -61,14 +62,17 @@ Template.dataDisplay.helpers({
         } : '';
     },
     difficulty: function () {
-        var problem = Problems.findOne(this.questions[0]);
+        var number = Session.get('questionNumber'),
+            problem = Problems.findOne(this.questions[number]);
         return (problem) ? problem.difficulty : ''; //currently only good for Question 0
     },
     fastest: function () {
-        return _.min(this.times[0]); //currently only good for Question 0
+        var number = Session.get('questionNumber');
+            return _.min(this.times[number]); //currently only good for Question 0
     },
     slowest: function () {
-        return _.max(this.times[0]); //currently only good for Question 0
+        var number = Session.get('questionNumber');
+        return _.max(this.times[number]); //currently only good for Question 0
     }
 });
 
@@ -78,15 +82,16 @@ Template.missList.onRendered(function () {
 
 Template.scores.helpers({
     selection: function () {
-        return Session.get('quizSelected');
+        return Quizzes.findOne(Session.get('quizSelected'));
     }
 });
 
-Template.questionsDropdown.helpers({
-    number: function () {
-        var problem = Problems.findOne(this.valueOf());
-        return (problem) ? problem.number : '';
-    }
+Template.questionsDropdown.onRendered(function () {
+    $('.dropdown').dropdown({
+        onChange: function (value) {
+            Session.set('questionNumber', value);
+        }
+    });
 });
 
 Template.quizDropdown.helpers({
@@ -98,7 +103,11 @@ Template.quizDropdown.helpers({
 Template.quizDropdown.onRendered(function () {
     $('.dropdown').dropdown({
         onChange: function () {
-            $('.dropdown').dropdown();
+            $('.dropdown').dropdown({
+                onChange: function (value) {
+                    Session.set('questionNumber', value);
+                }
+            });
             $('#accuracy').progress({
                 label: 'ratio',
                 text: {
@@ -112,6 +121,6 @@ Template.quizDropdown.onRendered(function () {
 
 Template.quizReport.events({
     "click .item": function () {
-        Session.set('quizSelected', Quizzes.findOne(this._id));
+        Session.set('quizSelected', this._id);
     }
 });

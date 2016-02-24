@@ -5,9 +5,9 @@
 </template>
 
 <template name="playtime">
-    <div id="header" class="ui top fixed inverted three item stackable menu">
+    <nav id="header" class="ui top fixed inverted three item stackable menu">
         {{> yield region='header'}}
-    </div>
+    </nav>
     <div id="main-grid" class="ui stackable equal height full-height grid">
         {{#transitioner}}
             {{> yield}}

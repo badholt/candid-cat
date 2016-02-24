@@ -1,0 +1,83 @@
+<template name="knowledgeCreator">
+    <div class="ui form">
+        <div class="ui padded stackable two column grid">
+            <div class="grouped fields column">
+                <div class="field">
+                    <label>Text Prompt</label>
+                    <textarea name="text-prompt" rows="2">{{prompt}}</textarea>
+                </div>
+                <div class="field">
+                    <div class="inline fields">
+                        <label>Multiple Choice Options</label>
+                        {{> multipleChoiceType}}
+                    </div>
+                    {{#each multipleChoices}}
+                        {{> multipleChoiceOption}}
+                    {{/each}}
+                    <i class="circular add icon link field"></i>
+                </div>
+                <!--<div class="field">
+                    <label>Code Snippet</label>
+                    <div class="inline fields">
+                        {{> languageSelectorDropdown}}
+                        <div class="ui right floated column">
+                            {{> viewSelector}}
+                        </div>
+                    </div>
+                    {{> codeEditor}}
+                </div>-->
+            </div>
+            <div class="ui stacked segment column">
+                <div class="ui pink dividing header">
+                    Preview
+                    <div class="ui sub header">
+                        (of correct answer)
+                    </div>
+                </div>
+                <div class="grouped fields">
+                    <label>{{prompt}}</label>
+                    {{#each multipleChoices}}
+                        {{> optionPreview}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="multipleChoiceOption">
+    <div class="ui left labeled icon input">
+        <a class="truth ui basic inverted {{#if truth}}green{{else}}red{{/if}} right pointing label">
+            {{#if truth}}true{{else}}false{{/if}}
+        </a>
+        <input name="choice-{{number}}" placeholder="Type an answer here..." type="text" value="{{text}}">
+        <i class="circular red delete icon link"></i>
+    </div>
+</template>
+
+<template name="multipleChoiceType">
+    <div class="ui dropdown">
+        <div class="default text">type</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            <div class="item" data-value="checkbox">
+                <span class="description">multiple correct</span>
+                checkbox
+            </div>
+            <div class="item" data-value="radio">
+                <span class="description">single correct</span>
+                radio
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="optionPreview">
+    <div class="field">
+        <div class="ui {{#if $eq type 'radio'}}radio{{/if}} read-only checkbox">
+            <input name="choice-preview" {{checked}} class="hidden" tabindex="0"
+                   type="{{type}}">
+            <label>{{text}}</label>
+        </div>
+    </div>
+</template>

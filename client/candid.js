@@ -1,4 +1,5 @@
 Template.home.onRendered(function () {
+    Session.set('questionNumber', 'default');
     var id = Session.get('currentQuiz');
     if (id) {
         $('.tabular.menu .item').tab('change tab', 'scores');

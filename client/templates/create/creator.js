@@ -7,9 +7,10 @@ Template.creator.events({
                 code: '',
                 created: new Date(),
                 difficulty: '',
-                owner: Meteor.userId(),
                 language: '',
+                multipleChoices: [],
                 number: quiz.questions.length,
+                owner: Meteor.userId(),
                 prompt: '',
                 type: ''
             };
@@ -22,6 +23,14 @@ Template.creator.events({
     'click .question-type': function (event) {
         this.type = $(event.target)
             .closest('.button').context.innerText.replace(' ', '');
+        if (this.type === 'knowledge' && this.multipleChoices.length === 0) {
+            this.multipleChoices.push({
+                number: 1,
+                text: '',
+                truth: false,
+                type: 'checkbox'
+            });
+        }
         Meteor.call('updateProblem', this);
         $('#question-' + this.number + '-type').accordion('close', 0);
         $('#question-' + this.number).transition('horizontal flip in');
