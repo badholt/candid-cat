@@ -17,6 +17,10 @@ Template.knowledgeCreator.events({
 
 Template.knowledgeCreator.onRendered(function () {
     $('.ui.checkbox').checkbox();
+    var option = this.data.multipleChoices[0];
+    if (option && option.type) {
+        $('.ui.dropdown').dropdown('set selected', option.type);
+    }
 });
 
 Template.multipleChoiceOption.events({
