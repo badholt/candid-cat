@@ -1,3 +1,17 @@
+<template name="knowledge">
+    <div class="ui centered fifteen wide column grouped fields">
+        {{#each choices}}
+            <div class="field">
+                <div class="ui {{#if $eq type 'radio'}}radio{{/if}} checkbox">
+                    <input name="choice" {{checked}} class="hidden" data-value="{{number}}" tabindex="0"
+                           type="{{type}}">
+                    <label>{{text}}</label>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</template>
+
 <template name="knowledgeCreator">
     <div class="ui form">
         <div class="ui padded stackable two column grid">
@@ -7,6 +21,22 @@
                     <textarea name="text-prompt" rows="2">{{prompt}}</textarea>
                 </div>
                 <div class="field">
+                    <a class="add-code-snippet ui compact icon labeled tiny button {{#if useCodeSnippet}}red{{else}}green{{/if}} label">
+                        <i class="{{#if useCodeSnippet}}minus{{else}}plus{{/if}} icon"></i>
+                        Code Snippet
+                    </a>
+                    {{#if useCodeSnippet}}
+                        <label class="ui centered header">Code Snippet</label>
+                        <div class="inline fields">
+                            {{> languageSelectorDropdown}}
+                            <div class="ui right floated column">
+                                {{> viewSelector}}
+                            </div>
+                        </div>
+                        {{> codeEditor}}
+                    {{/if}}
+                </div>
+                <div class="field">
                     <div class="inline fields">
                         <label>Multiple Choice Options</label>
                         {{> multipleChoiceType}}
@@ -14,18 +44,11 @@
                     {{#each multipleChoices}}
                         {{> multipleChoiceOption}}
                     {{/each}}
-                    <i class="circular add icon link field"></i>
-                </div>
-                <!--<div class="field">
-                    <label>Code Snippet</label>
-                    <div class="inline fields">
-                        {{> languageSelectorDropdown}}
-                        <div class="ui right floated column">
-                            {{> viewSelector}}
-                        </div>
+                    <div class="ui inline field">
+                        <i class="circular add icon link"></i>
+                        <label>add answer option</label>
                     </div>
-                    {{> codeEditor}}
-                </div>-->
+                </div>
             </div>
             <div class="ui stacked segment column">
                 <div class="ui pink dividing header">
@@ -36,11 +59,15 @@
                 </div>
                 <div class="grouped fields">
                     <label>{{prompt}}</label>
+                    {{#if useCodeSnippet}}
+                        {{> codePreview}}
+                    {{/if}}
                     {{#each multipleChoices}}
                         {{> optionPreview}}
                     {{/each}}
                 </div>
             </div>
+            {{> submissionRow}}
         </div>
     </div>
 </template>
@@ -56,7 +83,7 @@
 </template>
 
 <template name="multipleChoiceType">
-    <div class="ui dropdown">
+    <div id="multiple-choice-type" class="ui dropdown">
         <div class="default text">type</div>
         <i class="dropdown icon"></i>
         <div class="menu">

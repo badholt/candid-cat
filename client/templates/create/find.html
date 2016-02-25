@@ -1,3 +1,12 @@
+<template name="find">
+    <div class="ui twelve wide column">
+        {{> codePrompt}}
+        {{#if $.Session.get 'answered'}}
+            {{> answer}}
+        {{/if}}
+    </div>
+</template>
+
 <template name="findCreator">
     <div id="findForm" class="ui form">
         <div class="field">
@@ -19,7 +28,7 @@
                 <label>Answers</label>
                 {{> delimiterSelection}}
             </div>
-            {{> answerCode}}
+            {{> codeAnswer}}
         </div>
         {{> submissionRow}}
     </div>

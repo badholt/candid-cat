@@ -1,10 +1,15 @@
-<template name="answerCode">
-    <textarea id="answer-code-{{number}}" class="answer-code" rows="2" name="answer-code"
+<template name="codeAnswer">
+    <textarea id="code-answer-{{number}}" class="answer-code" rows="2" name="answer-code"
               number="{{number}}"></textarea>
 </template>
 
 <template name="codeEditor">
     <textarea id="code-editor-{{number}}" class="code-editor" name="code-prompt" number="{{number}}"
+              value="{{code}}"></textarea>
+</template>
+
+<template name="codePreview">
+    <textarea id="code-preview-{{number}}" class="code-editor" name="code-prompt" number="{{number}}"
               value="{{code}}"></textarea>
 </template>
 

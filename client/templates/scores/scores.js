@@ -14,6 +14,7 @@ Template.dataDisplay.events({
         Session.set('questionNumber', 0);
         Session.set('report', '');
         Router.go('/play/' + this._id);
+        console.log(Template.instance().selectedProblems.get());
     }
 });
 
@@ -74,6 +75,10 @@ Template.dataDisplay.helpers({
         var number = Session.get('questionNumber');
         return _.max(this.times[number]); //currently only good for Question 0
     }
+});
+
+Template.dataDisplay.onCreated(function () {
+    this.selectedProblems = new ReactiveVar('');
 });
 
 Template.missList.onRendered(function () {

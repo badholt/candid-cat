@@ -10,25 +10,39 @@ Template.answer.onRendered(function () {
 });
 
 Template.play.events({
-    "click #nextQuestion": function (event) {
+    "click #nextQuestion": function (event, template) {
         var accuracy = [],
-            answerBox = $('#selected-code'),
-            answers = [],
             checklist = this.answers.slice(0),
+            options = [],
+            problemType = this.type,
             report,
+            responses = [],
             time = timer.getTime().time;
-        _.each(answerBox.children(), function (response) {
+        if (problemType === 'knowledge') {
+            $('.checkbox').each(function (value) {
+                var checkbox = $(this),
+                    response = checkbox.find('input').attr('data-value');
+                if (checkbox.checkbox('is checked')) {
+                    options.push(response);
+                }
+            });
+        } else if (problemType === 'find') {
+            var answerBox = $('#selected-code');
+            options = answerBox.children();
+        }
+        _.each(options, function (response) {
             var correct = false;
-            response = $(response).text();
+            if (problemType === 'find') response = $(response).text();
             for (var i in this.answers) {
                 if (this.answers.hasOwnProperty(i)) {
                     var answer = this.answers[i];
                     if (!correct) {//if the answer has already been matched, don't bother
-                        if (typeof answer === 'string') {//if it's mandatory
+                        if (typeof answer === 'string' || typeof answer === 'number') {//if it's mandatory
                             correct = (answer == response);
                         } else {//if it's optional
                             correct = _.contains(answer, response);
                         }
+                        console.log(response, answer, correct);
                         if (correct) {//if correct
                             var index = checklist.indexOf(answer);//check it off checklist
                             if (index != -1) {
@@ -42,16 +56,18 @@ Template.play.events({
             if (!correct) {//if none of the answers matched the response
                 accuracy.push(false);
             }
-            answers.push(response);
+            responses.push(response);
         }, this);//All correct values have been checked off
-        _.each(_.compact(checklist), function () {//if some answers haven't been checked
-            accuracy.push(false);//mark the lack of answer as false
-            answers.push(null);
-        });
-        if (answers.length > 0) {
+        if (problemType === 'find') {
+            _.each(_.compact(checklist), function () {//if some answers haven't been checked
+                accuracy.push(false);//mark the lack of answer as false
+                responses.push(null);
+            });
+        }
+        if (responses.length > 0) {
             report = {
                 accuracy: accuracy,
-                answers: answers,
+                answers: responses,
                 time: time
             };
             Meteor.call('reportUserResponse', report, this._id);
@@ -62,7 +78,7 @@ Template.play.events({
                 Session.set('questionNumber', next);
                 Session.set('answered', false);
             } else {
-                Router.go('home');
+                //Router.go('home');
             }
         }
     },
@@ -115,18 +131,8 @@ Template.play.helpers({
     }
 });
 
-Template.find.onRendered(function () {
-    Session.set("answered", false);
-    this.$('#selected-code').text("");
+Template.problemTimer.onRendered(function () {
     timer = $('#timer').FlipClock({
         clockFace: 'MinuteCounter'
-    });
-    var codePrompt = $('#code-prompt-' + this.data.number),
-        language = (this.data.language === 'htmlmixed') ? 'language-html' : this.data.language;
-    hljs.highlightBlock(codePrompt[0]);
-    $('.hljs').html(function (_, html) {
-        return html.replace(/(?:span\>)\s(?!abc)\w+/g, function (match) {
-            return 'span> <span class="variable-name">' + match.replace('span> ', '') + '</span>';
-        });
     });
 });

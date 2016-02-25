@@ -4,13 +4,14 @@
             {{#each problems}}
                 {{#if $.Session.equals 'questionNumber' number}}
                     {{> question}}
-                    {{#if aware}}<h1 id="timer" class="ui header"></h1>{{/if}}
+                    {{#if aware}}{{> problemTimer}}{{/if}}
                     <div class="ui centered stackable grid">
                         <div class="row">
                             {{#if $eq type 'find'}}
                                 {{> find}}
-                            {{else}}
-                                {{> fix}}
+                            {{/if}}
+                            {{#if $eq type 'knowledge'}}
+                                {{> knowledge}}
                             {{/if}}
                         </div>
                         {{#if $.Session.get 'answered'}}
@@ -53,17 +54,8 @@
     </div>
 </template>
 
-<template name="find">
-    <div class="ui twelve wide column">
-        {{> codePrompt}}
-        {{#if $.Session.get 'answered'}}
-            {{> answer}}
-        {{/if}}
-    </div>
-</template>
-
-<template name="fix">
-
+<template name="problemTimer">
+    <h1 id="timer" class="ui header"></h1>
 </template>
 
 <template name="question">
@@ -74,6 +66,9 @@
             <div class="sub header">
                 {{prompt}}
             </div>
+            {{#if useCode}}
+                {{> codePreview}}
+            {{/if}}
         </div>
     </h2>
 </template>

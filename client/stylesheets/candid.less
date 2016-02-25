@@ -62,7 +62,7 @@ body {
 #main-segment {
   max-height: 95%;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-transition: background 2s;
   -moz-transition: background 2s;
   -ms-transition: background 2s;
@@ -139,7 +139,7 @@ body {
   i {
     margin: 0;
   }
-  #selected-code{
+  #selected-code {
     span {
       margin-right: 0.5em;
     }
@@ -158,6 +158,20 @@ body {
       width: 70%;
     }
   }
+  .sub.header {
+    font-size: larger;
+  }
+}
+
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}
+
+.CodeMirror-scroll {
+  height: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
 }
 
 .double {

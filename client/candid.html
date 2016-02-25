@@ -1,5 +1,5 @@
 <template name="home">
-    <div id="main-segment" class="ui thirteen wide centered column stacked segment">
+    <div id="main-segment" class="ui thirteen wide centered column segment">
         <div class="ui right floated one column grid">
             <div class="ui column">
                 <div class="ui three item stackable tabular top attached menu">
@@ -62,7 +62,7 @@
         <i class="large {{#if aware}}clock{{else}}pencil{{/if}} middle aligned icon"></i>
         <div class="content">
             <a class="header">{{title}}</a>
-            <div class="description">Created on {{created}}</div>
+            <div class="description">last updated on {{lastUpdated}}</div>
         </div>
     </div>
 </template>
