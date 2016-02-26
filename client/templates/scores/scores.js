@@ -1,6 +1,5 @@
 Template.accuracyBar.onRendered(function () {
     $('#accuracy').progress({
-        label: 'ratio',
         text: {
             active: '{value} of {total}',
             success: 'Perfect Score! ({value} of {total})'
@@ -14,7 +13,7 @@ Template.dataDisplay.events({
         Session.set('questionNumber', 0);
         Session.set('report', '');
         Router.go('/play/' + this._id);
-        console.log(Template.instance().selectedProblems.get());
+        //console.log(Template.instance().selectedProblems.get());
     }
 });
 
@@ -57,6 +56,7 @@ Template.dataDisplay.helpers({
             correct: totalCorrect,
             misses: misses,
             numbers: numbers,
+            percent: Math.round((totalCorrect/totalAttempts) * 100),
             quiz: this.title,
             times: times,
             total: totalAttempts
@@ -67,36 +67,41 @@ Template.dataDisplay.helpers({
             problem = Problems.findOne(this.questions[number]);
         return (problem) ? problem.difficulty : ''; //currently only good for Question 0
     },
-    fastest: function () {
-        var number = Session.get('questionNumber');
-            return _.min(this.times[number]); //currently only good for Question 0
+    statistics: function () {
+        var numbers = Session.get('questionNumber').toString().split(','),
+            problems = Quizzes.findOne(Session.get('quizSelected')).selectedQuestions(numbers);
+        var selectedTimes = _.flatten(Problems.find({_id: {$in: problems}}).map(function (problem) {
+            return problem.report().times;
+        }));
+        return [{
+            color: 'green',
+            label: 'fastest answer (seconds)',
+            statistic: _.min(selectedTimes)
+        }, {
+            color: 'red',
+            label: 'slowest answer (seconds)',
+            statistic: _.max(selectedTimes)
+        }];
     },
-    slowest: function () {
-        var number = Session.get('questionNumber');
-        return _.max(this.times[number]); //currently only good for Question 0
+    taken: function () {
+        console.log(this);
     }
 });
 
 Template.dataDisplay.onCreated(function () {
-    this.selectedProblems = new ReactiveVar('');
+    //this.selectedProblems = new ReactiveVar('');
 });
 
 Template.missList.onRendered(function () {
     $('.table').tablesort();
 });
 
-Template.scores.helpers({
-    selection: function () {
-        return Quizzes.findOne(Session.get('quizSelected'));
-    }
-});
-
 Template.questionsDropdown.onRendered(function () {
-    $('.dropdown').dropdown({
-        onChange: function (value) {
+    $('#questions-selection').dropdown({
+        onChange: function (value, element) {
             Session.set('questionNumber', value);
         }
-    });
+    }).dropdown('set selected', 'default');
 });
 
 Template.quizDropdown.helpers({
@@ -105,26 +110,33 @@ Template.quizDropdown.helpers({
     }
 });
 
+Template.scores.helpers({
+    selection: function () {
+        return Quizzes.findOne(Session.get('quizSelected'));
+    }
+});
+
+Template.scores.onCreated(function () {
+    this.quizSelection = new ReactiveVar('');
+});
+
 Template.quizDropdown.onRendered(function () {
-    $('.dropdown').dropdown({
+    $('#quiz-selection').dropdown({
         onChange: function () {
             $('.dropdown').dropdown({
-                onChange: function (value) {
-                    Session.set('questionNumber', value);
-                }
-            });
-            $('#accuracy').progress({
-                label: 'ratio',
-                text: {
-                    active: '{value} of {total}',
-                    success: 'Perfect Score'
+                onChange: function () {
+                    $('#questions-selection').dropdown({
+                        onChange: function (value, element) {
+                            Session.set('questionNumber', value);
+                        }
+                    }).dropdown('set selected', 'default');
                 }
             });
         }
-    });
+    }).dropdown('set selected', 'default');
 });
 
-Template.quizReport.events({
+Template.quizDropdownItem.events({
     "click .item": function () {
         Session.set('quizSelected', this._id);
     }

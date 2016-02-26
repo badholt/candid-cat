@@ -5,7 +5,7 @@ Template.home.onRendered(function () {
         $('.tabular.menu .item').tab('change tab', 'scores');
         var quiz = Quizzes.findOne(id);
         Session.set('quizSelected', quiz);
-        $('#quizSelection').dropdown('set selected', (quiz) ? quiz.title : '');
+        $('#quizSelection').dropdown('set selected', (quiz) ? quiz.title : 'default');
     } else {
         $('.tabular.menu .item').tab();
     }

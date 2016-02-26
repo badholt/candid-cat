@@ -10,30 +10,29 @@
         {{title}}, Question(s){{> questionsDropdown}}
     </div>
     {{#with calculations}}
+        <div class="ui row centered grid">
+            <label class="ui center aligned huge header column">{{percent}}% correct</label>
+        </div>
+        <div class="ui row">
+            {{> accuracyBar}}
+        </div>
         <div class="ui centered two column stackable grid">
             <div class="ui column">
                 <div class="ui row">
-                    {{> accuracyBar}}
-                </div>
-                <div class="ui row">
                     <div class="ui column">
-                        <div class="ui statistics">
-                            <div class="red statistic">
-                                <div class="value">
-                                    {{slowest}}
-                                </div>
-                                <div class="label">
-                                    slowest answer (s)
-                                </div>
-                            </div>
-                            <div class="green statistic">
-                                <div class="value">
-                                    {{fastest}}
-                                </div>
-                                <div class="label">
-                                    fastest answer (s)
+                        <div class="ui center aligned statistics two column grid">
+                            {{#each statistics}}
+                            <div class="column">
+                                <div class="{{color}} statistic">
+                                    <div class="value">
+                                        {{statistic}}
+                                    </div>
+                                    <label class="label">
+                                        {{label}}
+                                    </label>
                                 </div>
                             </div>
+                            {{/each}}
                         </div>
                     </div>
                 </div>
@@ -47,54 +46,22 @@
         </div>
     {{else}}
         <div class="ui center aligned segment">
-            You have not taken this quiz yet!  Click
-            <button id="takeQuiz" class="ui basic button">here</button>
-            to take it now.
+            {{#if taken}}
+            {{else}}
+                You have not taken this quiz yet! Click
+                <button id="takeQuiz" class="ui basic button">here</button>
+                to take it now.
+            {{/if}}
         </div>
     {{/with}}
 </template>
 
 <template name="accuracyBar">
-    <div id="accuracy" class="ui indicating progress"
+    <div id="accuracy" class="ui large indicating progress"
+         data-percent=""
          data-value="{{correct}}" data-total="{{total}}">
+        <label class="label">Accuracy</label>
         <div class="bar"></div>
-        <div class="label">Accuracy</div>
-    </div>
-</template>
-
-<template name="quizReport">
-    <div class="item" data-value="{{title}}">
-        <i class="clock icon"></i>
-        {{title}}
-    </div>
-</template>
-
-<template name="questionsDropdown">
-    <div id="questionsSelection" class="ui multiple dropdown">
-        <input type="hidden" name="questions">
-        <div class="default text">All</div>
-        <div class="menu">
-            <div class="default item" data-value="default">All</div>
-            {{#each problems}}
-                <a class="item" data-value="{{number}}">
-                    {{number}}
-                </a>
-            {{/each}}
-        </div>
-        <i class="dropdown icon"></i>
-    </div>
-</template>
-
-<template name="quizDropdown">
-    <div id="quizSelection" class="ui fluid selection dropdown">
-        <input type="hidden" name="quiz">
-        <i class="dropdown icon"></i>
-        <div class="default text">Select your data to review</div>
-        <div class="menu">
-            {{#each quizzes}}
-                {{> quizReport}}
-            {{/each}}
-        </div>
     </div>
 </template>
 
@@ -136,4 +103,40 @@
             {{answer}}
         </td>
     </tr>
+</template>
+
+<template name="questionsDropdown">
+    <div id="questions-selection" class="ui multiple dropdown">
+        <input type="hidden" name="questions">
+        <div class="default text">All</div>
+        <div class="menu">
+            <div class="default item" data-value="default">All</div>
+            {{#each problems}}
+                <a class="item" data-value="{{number}}">
+                    {{number}}
+                </a>
+            {{/each}}
+        </div>
+        <i class="dropdown icon"></i>
+    </div>
+</template>
+
+<template name="quizDropdown">
+    <div id="quiz-selection" class="ui fluid selection dropdown">
+        <input type="hidden" name="quiz">
+        <i class="dropdown icon"></i>
+        <div class="default text">Select your data to review</div>
+        <div class="menu">
+            {{#each quizzes}}
+                {{> quizDropdownItem}}
+            {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name="quizDropdownItem">
+    <div class="item" data-value="{{title}}">
+        <i class="clock icon"></i>
+        {{title}}
+    </div>
 </template>

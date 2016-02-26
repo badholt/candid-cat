@@ -78,7 +78,7 @@ Template.play.events({
                 Session.set('questionNumber', next);
                 Session.set('answered', false);
             } else {
-                //Router.go('home');
+                Router.go('home');
             }
         }
     },
