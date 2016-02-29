@@ -11,13 +11,13 @@ App.info({
 
 // Set up resources such as icons and launch screens.
 App.icons({
-    'android_ldpi': 'icons/inverted-logo.pngicons/inverted-logo.png',
-    'android_mdpi': 'icons/inverted-logo.pngicons/inverted-logo.png',
-    'android_hdpi': 'icons/inverted-logo.pngicons/inverted-logo.png',
-    'android_xhdpi': 'icons/inverted-logo.pngicons/inverted-logo.png',
-    'ipad': 'icons/inverted-logo.pngicons/inverted-logo.png',
-    'ipad_2x': 'icons/inverted-logo.pngicons/inverted-logo.png',
-    'iphone': 'icons/inverted-logo.pngicons/inverted-logo.png',
+    'android_ldpi': 'icons/inverted-logo.png',
+    'android_mdpi': 'icons/inverted-logo.png',
+    'android_hdpi': 'icons/inverted-logo.png',
+    'android_xhdpi': 'icons/inverted-logo.png',
+    'ipad': 'icons/inverted-logo.png',
+    'ipad_2x': 'icons/inverted-logo.png',
+    'iphone': 'icons/inverted-logo.png',
     'iphone_2x': 'icons/inverted-logo@2x.png'
 });
 
