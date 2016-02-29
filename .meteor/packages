@@ -41,3 +41,6 @@ velocityjs:velocityjs
 reactive-var
 dburles:collection-helpers
 aldeed:template-extension
+chart:chart
+fastclick
+mystor:device-detection

@@ -56,7 +56,7 @@ Template.dataDisplay.helpers({
             correct: totalCorrect,
             misses: misses,
             numbers: numbers,
-            percent: Math.round((totalCorrect/totalAttempts) * 100),
+            percent: Math.round((totalCorrect / totalAttempts) * 100),
             quiz: this.title,
             times: times,
             total: totalAttempts
@@ -88,10 +88,6 @@ Template.dataDisplay.helpers({
     }
 });
 
-Template.dataDisplay.onCreated(function () {
-    //this.selectedProblems = new ReactiveVar('');
-});
-
 Template.missList.onRendered(function () {
     $('.table').tablesort();
 });
@@ -102,22 +98,13 @@ Template.questionsDropdown.onRendered(function () {
             Session.set('questionNumber', value);
         }
     }).dropdown('set selected', 'default');
+    console.log(this.data);
 });
 
 Template.quizDropdown.helpers({
     quizzes: function () {
         return Quizzes.find();
     }
-});
-
-Template.scores.helpers({
-    selection: function () {
-        return Quizzes.findOne(Session.get('quizSelected'));
-    }
-});
-
-Template.scores.onCreated(function () {
-    this.quizSelection = new ReactiveVar('');
 });
 
 Template.quizDropdown.onRendered(function () {
@@ -137,7 +124,20 @@ Template.quizDropdown.onRendered(function () {
 });
 
 Template.quizDropdownItem.events({
-    "click .item": function () {
+    "click .item": function (event, template) {
         Session.set('quizSelected', this._id);
     }
+});
+
+Template.scores.helpers({
+    selection: function () {
+        return Quizzes.findOne(Session.get('quizSelected'));
+    },
+    showCharts: function () {
+        return Template.instance().showCharts.get();
+    }
+});
+
+Template.quizDropdown.onCreated(function () {
+    this.quizSelection = new ReactiveVar('');
 });

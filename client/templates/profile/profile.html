@@ -1,0 +1,34 @@
+<template name="profile">
+    <div class="ui two column grid">
+        <div class="column">
+            {{> userCard}}
+        </div>
+        <div class="column">
+            {{> chartCanvas id='radar-chart'}}
+        </div>
+    </div>
+</template>
+
+<template name="userCard">
+    <div class="ui card">
+        <div class="image">
+            <img src="{{#if currentUser.profile.picture}}{{currentUser.profile.picture}}
+            {{else}}http://lorempixel.com/250/250/cats/{{/if}}">
+        </div>
+        <div class="content">
+            <a class="header">{{currentUser.profile.name}}</a>
+            <div class="meta">
+                <span class="date">{{currentUser.profile.email}}</span>
+            </div>
+        </div>
+        <div class="extra content">
+            <span class="right floated">
+                Joined on {{currentUser.profile.joined}}
+            </span>
+            <span>
+                <i class="user icon"></i>
+                {{currentUser.username}}
+            </span>
+        </div>
+    </div>
+</template>

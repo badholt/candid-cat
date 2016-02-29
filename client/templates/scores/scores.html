@@ -14,7 +14,9 @@
             <label class="ui center aligned huge header column">{{percent}}% correct</label>
         </div>
         <div class="ui row">
-            {{> accuracyBar}}
+            {{#if showCharts}}
+                {{> accuracyBar}}
+            {{/if}}
         </div>
         <div class="ui centered two column stackable grid">
             <div class="ui column">
@@ -22,19 +24,22 @@
                     <div class="ui column">
                         <div class="ui center aligned statistics two column grid">
                             {{#each statistics}}
-                            <div class="column">
-                                <div class="{{color}} statistic">
-                                    <div class="value">
-                                        {{statistic}}
+                                <div class="column">
+                                    <div class="{{color}} statistic">
+                                        <div class="value">
+                                            {{statistic}}
+                                        </div>
+                                        <label class="label">
+                                            {{label}}
+                                        </label>
                                     </div>
-                                    <label class="label">
-                                        {{label}}
-                                    </label>
                                 </div>
-                            </div>
                             {{/each}}
                         </div>
                     </div>
+                </div>
+                <div class="ui row">
+                    {{> chartCanvas id='pie-chart'}}
                 </div>
             </div>
             <div class="ui column">
