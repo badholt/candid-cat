@@ -67,11 +67,16 @@ Template.dataDisplay.helpers({
             problem = Problems.findOne(this.questions[number]);
         return (problem) ? problem.difficulty : ''; //currently only good for Question 0
     },
+    showCharts: function () {console.log(Template.instance().parent().showCharts.get());
+        return Template.instance().parent().showCharts.get();
+        //return true;
+    },
     statistics: function () {
         var numbers = Session.get('questionNumber').toString().split(','),
             problems = Quizzes.findOne(Session.get('quizSelected')).selectedQuestions(numbers);
         var selectedTimes = _.flatten(Problems.find({_id: {$in: problems}}).map(function (problem) {
-            return problem.report().times;
+            var report = problem.report();
+            return (report) ? report.times : null;
         }));
         return [{
             color: 'green',
@@ -88,6 +93,10 @@ Template.dataDisplay.helpers({
     }
 });
 
+Template.dataDisplay.onRendered(function () {
+   this.parent().showCharts.set(true);
+});
+
 Template.missList.onRendered(function () {
     $('.table').tablesort();
 });
@@ -98,7 +107,6 @@ Template.questionsDropdown.onRendered(function () {
             Session.set('questionNumber', value);
         }
     }).dropdown('set selected', 'default');
-    console.log(this.data);
 });
 
 Template.quizDropdown.helpers({
@@ -108,8 +116,9 @@ Template.quizDropdown.helpers({
 });
 
 Template.quizDropdown.onRendered(function () {
+    var instance = this;
     $('#quiz-selection').dropdown({
-        onChange: function () {
+        onChange: function () {console.log(instance);
             $('.dropdown').dropdown({
                 onChange: function () {
                     $('#questions-selection').dropdown({
@@ -119,13 +128,16 @@ Template.quizDropdown.onRendered(function () {
                     }).dropdown('set selected', 'default');
                 }
             });
+            instance.parent().showCharts.set(false);
         }
     }).dropdown('set selected', 'default');
 });
 
 Template.quizDropdownItem.events({
     "click .item": function (event, template) {
+        console.log(template.parent(2));
         Session.set('quizSelected', this._id);
+        template.parent(2).showCharts.set(true);
     }
 });
 
@@ -133,11 +145,11 @@ Template.scores.helpers({
     selection: function () {
         return Quizzes.findOne(Session.get('quizSelected'));
     },
-    showCharts: function () {
+    showCharts: function () {console.log(Template.instance().showCharts.get(), this);
         return Template.instance().showCharts.get();
     }
 });
 
-Template.quizDropdown.onCreated(function () {
-    this.quizSelection = new ReactiveVar('');
+Template.scores.onCreated(function () {
+    this.showCharts = new ReactiveVar(true);
 });

@@ -83,7 +83,7 @@ Template.play.events({
         }
     },
     "click code > span": function (event) {
-        var target = $(event.target),
+        var target = $(event.target || event.srcElement),
             targetClass = target.context.className,
             selected = (targetClass !== 'hljs-title') ? target : target.parent(),
             tag = selected.clone().wrap('<p>').parent().html();
@@ -98,7 +98,7 @@ Template.play.events({
     "click #selected-code > span": function (event) {
         var answerBox = $('#selected-code');
         if (answerBox[0]) {
-            var target = $(event.target),
+            var target = $(event.target || event.srcElement),
                 targetClass = target.context.className,
                 selected = (targetClass !== 'hljs-title') ? target : target.parent(),
                 tag = selected.clone().wrap('<p>').parent().html();

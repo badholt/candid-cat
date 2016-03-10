@@ -5,3 +5,11 @@ Template.header.helpers({
         return (quiz) ? quiz.title : '';
     }
 });
+
+Template.mobileNavigationDropdown.onRendered(function () {
+    $('.mobile-navigation').dropdown({
+        onShow: function () {
+            $('.mobile-navigation .tab.item').tab();
+        }
+    });
+});

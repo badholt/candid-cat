@@ -5,15 +5,23 @@
 </template>
 
 <template name="playtime">
-    <nav id="header" class="ui top fixed inverted three item stackable menu">
-        {{> yield region='header'}}
-    </nav>
-    <div id="main-grid" class="ui stackable equal height full-height grid">
-        {{#transitioner}}
-            {{> yield}}
-        {{/transitioner}}
-    </div>
-    <div id="footer" class="ui bottom fixed inverted one item menu">
-        {{> yield region='footer'}}
+    <div class="ui full-page grid">
+        <nav id="header" class="ui top fixed inverted two item menu mobile only row">
+            {{> mobileNavigationDropdown}}
+            <a href="{{pathFor 'home'}}" class="{{isActive route='home'}} right floated item">
+                <span class="double kitty">candid</span> <img src="/icons/logo.png"/>
+            </a>
+        </nav>
+        <nav id="header" class="ui top fixed inverted three item menu computer tablet only row">
+            {{> yield region='header'}}
+        </nav>
+        <div id="main-grid" class="ui stackable equal height full-page grid">
+            {{#transitioner}}
+                {{> yield}}
+            {{/transitioner}}
+        </div>
+        <div id="footer" class="ui bottom fixed inverted one item menu">
+            {{> yield region='footer'}}
+        </div>
     </div>
 </template>

@@ -18,6 +18,10 @@ body {
   border: 1em solid #111;
 }
 
+nav {
+  padding: 0 !important;
+}
+
 #answer-segment {
   -webkit-animation-name: sneaky;
   -webkit-animation-duration: 500ms;
@@ -48,14 +52,14 @@ body {
 }
 
 #footer #quizProgress {
-  margin: 0;
+  .marginless;
   width: 80%;
 }
 
 #main-grid {
   background: rgba(200, 200, 200, 0.5);
   height: 100%;
-  margin: 0;
+  .marginless;
   padding-top: 4em;
 }
 
@@ -88,12 +92,12 @@ body {
 
 #questions-selection {
   i, .text {
-    margin: 0;
+    .marginless;
   }
   .label {
     background-color: transparent;
     box-shadow: none;
-    margin: 0;
+    .marginless;
     padding: 0;
     vertical-align: middle;
     i {
@@ -137,14 +141,14 @@ body {
     tab-size: 2em;
   }
   i {
-    margin: 0;
+    .marginless;
   }
   #selected-code {
     span {
       margin-right: 0.5em;
     }
     span.hljs-title {
-      margin: 0 !important;
+      .marginless;
     }
   }
   .bottom.attached.menu {
@@ -178,12 +182,22 @@ body {
   font-size: 2em;
 }
 
+.full-page {
+  height: 100% !important;
+  .marginless;
+  width: 100% !important;
+}
+
 .kitty {
   background-image: -webkit-linear-gradient(0deg, rgba(221, 136, 136, 1) 0, rgba(255, 255, 255, 1) 100%);
   background-image: -moz-linear-gradient(90deg, rgba(221, 136, 136, 1) 0, rgba(255, 255, 255, 1) 100%);
   background-image: linear-gradient(90deg, rgba(221, 136, 136, 1) 0, rgba(255, 255, 255, 1) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.marginless {
+  margin: 0 !important;
 }
 
 .outlined {
@@ -209,6 +223,16 @@ body {
   ) !important;
 }
 
+.transitioner {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.ui.attached.tabular.menu {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+
 @media only screen and (max-width: 767px) {
   body {
     border: none;
@@ -221,7 +245,8 @@ body {
   }
 
   #main-grid {
-    padding: 11em 1em 0 1em;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .bottom.attached.segment > .segment {

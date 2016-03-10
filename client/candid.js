@@ -1,6 +1,6 @@
 Template.chartCanvas.onRendered(function () {
-    var context;
-    if (this._id !== 'pie-chart') {
+    var context;console.log(this);
+    if (this.data.id !== 'pie-chart') {
         context = document.getElementById('radar-chart').getContext('2d');
         var radarChart = new Chart(context).Radar({
             labels: ["Knowledge", "Find", "Fix", "Output"],

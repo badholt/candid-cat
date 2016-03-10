@@ -77,7 +77,8 @@ Template.multipleChoiceOption.events({
         Meteor.call('updateProblem', problem);
     },
     "keyup input": function (event, template) {
-        this.text = event.target.value;
+        var target = event.target || event.srcElement;
+        this.text = target.value;
         Meteor.call('updateProblem', template.parent().data);
     }
 });

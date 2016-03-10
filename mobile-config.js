@@ -42,6 +42,6 @@ App.launchScreens({
     'iphone6p_portrait': 'splash/Default@2x~iphone.png'*/
 });
 
-// Set PhoneGap/Cordova preferences
+/*// Set PhoneGap/Cordova preferences
 App.setPreference('BackgroundColor', '0xff0000ff');
-App.setPreference('HideKeyboardFormAccessoryBar', true);
+App.setPreference('HideKeyboardFormAccessoryBar', true);*/

@@ -21,7 +21,7 @@ Template.creator.events({
         });
     },
     'click .question-type': function (event) {
-        this.type = $(event.target)
+        this.type = $(event.target || event.srcElement)
             .closest('.button').context.innerText.replace(' ', '');
         if (this.type === 'knowledge' && this.multipleChoices.length === 0) {
             this.multipleChoices.push({
@@ -53,7 +53,8 @@ Template.creator.helpers({
 
 Template.questionPage.events({
     "keyup textarea[name='text-prompt']": function (event) {
-        this.prompt = event.target.value;
+        var target = event.target || event.srcElement;
+        this.prompt = target.value;
         Meteor.call('updateProblem', this);
     }
 });
@@ -72,7 +73,7 @@ Template.questionTypeSelector.onRendered(function () {
 
 Template.submissionRow.events({
     'click .difficulty .button': function (event) {
-        this.difficulty = $(event.target).attr('data-value');
+        this.difficulty = $(event.target || event.srcElement).attr('data-value');
         Meteor.call('updateProblem', this);
     },
     'click #submitQuestions': function (event) {
