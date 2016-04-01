@@ -15,7 +15,7 @@ App.icons({
     'android_mdpi': 'public/icons/inverted-logo.png',
     'android_hdpi': 'public/icons/inverted-logo.png',
     'android_xhdpi': 'public/icons/inverted-logo.png',
-/*    'ipad': 'public/icons/inverted-logo.png',
+/*  'ipad': 'public/icons/inverted-logo.png',
     'ipad_2x': 'public/icons/inverted-logo.png',
     'iphone': 'public/icons/inverted-logo.png',
     'iphone_2x': 'public/icons/inverted-logo@2x.png'*/
@@ -30,7 +30,7 @@ App.launchScreens({
     'android_hdpi_portrait': 'public/icons/nine-logo.png',
     'android_xhdpi_landscape': 'public/icons/nine-logo.png',
     'android_xhdpi_portrait': 'public/icons/nine-logo.png',
-    /*'ipad_landscape': 'splash/Default~iphone.png',
+/*  'ipad_landscape': 'splash/Default~iphone.png',
     'ipad_portrait': 'splash/Default~iphone.png',
     'ipad_landscape_2x': 'splash/Default~iphone.png',
     'ipad_portrait_2x': 'splash/Default~iphone.png',

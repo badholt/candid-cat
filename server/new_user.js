@@ -6,7 +6,7 @@ Accounts.onCreateUser(function (options, user) {
     if (userData.email) {
         Meteor.call('sendWelcomeEmail', userData, function (error) {
             if (error) {
-                console.log('EMAIL ERROR: ', error);
+                // console.log('EMAIL ERROR: ', error);
             }
         });
     }

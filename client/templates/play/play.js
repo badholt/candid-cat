@@ -33,34 +33,34 @@ Template.play.events({
         _.each(options, function (response) {
             var correct = false;
             if (problemType === 'find') response = $(response).text();
-            for (var i in this.answers) {
-                if (this.answers.hasOwnProperty(i)) {
-                    var answer = this.answers[i];
-                    if (!correct) {//if the answer has already been matched, don't bother
-                        if (typeof answer === 'string' || typeof answer === 'number') {//if it's mandatory
+            for (var key in this.answers) {
+                if (this.answers.hasOwnProperty(key)) {
+                    var answer = this.answers[key];
+                    if (!correct) { // if the answer has already been matched, don't bother
+                        if (typeof answer === 'string' || typeof answer === 'number') { // if it's mandatory
                             correct = (answer == response);
-                        } else {//if it's optional
+                        } else { // if it's optional
                             correct = _.contains(answer, response);
                         }
-                        console.log(response, answer, correct);
-                        if (correct) {//if correct
-                            var index = checklist.indexOf(answer);//check it off checklist
+                        // console.log(response, answer, correct);
+                        if (correct) { // if correct
+                            var index = checklist.indexOf(answer); // check it off checklist
                             if (index != -1) {
                                 checklist[index] = null;
                                 accuracy.push(correct);
-                            }//as long as it's present (not already removed)
+                            } // as long as it's present (not already removed)
                         }
                     }
                 }
             }
-            if (!correct) {//if none of the answers matched the response
+            if (!correct) { // if none of the answers matched the response
                 accuracy.push(false);
             }
             responses.push(response);
-        }, this);//All correct values have been checked off
+        }, this); // All correct values have been checked off
         if (problemType === 'find') {
-            _.each(_.compact(checklist), function () {//if some answers haven't been checked
-                accuracy.push(false);//mark the lack of answer as false
+            _.each(_.compact(checklist), function () { // if some answers haven't been checked
+                accuracy.push(false); // mark the lack of answer as false
                 responses.push(null);
             });
         }

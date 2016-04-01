@@ -1,5 +1,5 @@
 Template.chartCanvas.onRendered(function () {
-    var context;console.log(this);
+    var context;
     if (this.data.id !== 'pie-chart') {
         context = document.getElementById('radar-chart').getContext('2d');
         var radarChart = new Chart(context).Radar({
@@ -42,7 +42,7 @@ Template.chartCanvas.onRendered(function () {
                     return 'find';
                 }
             });
-        console.log(ids.length, types);
+        // console.log(ids.length, types);
         var pieChart = new Chart(context).Pie([
             {
                 value: (types.find) ? types.find : 0,

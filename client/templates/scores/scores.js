@@ -13,7 +13,7 @@ Template.dataDisplay.events({
         Session.set('questionNumber', 0);
         Session.set('report', '');
         Router.go('/play/' + this._id);
-        //console.log(Template.instance().selectedProblems.get());
+        // console.log(Template.instance().selectedProblems.get());
     }
 });
 
@@ -67,9 +67,8 @@ Template.dataDisplay.helpers({
             problem = Problems.findOne(this.questions[number]);
         return (problem) ? problem.difficulty : ''; //currently only good for Question 0
     },
-    showCharts: function () {console.log(Template.instance().parent().showCharts.get());
+    showCharts: function () {// console.log(Template.instance().parent().showCharts.get());
         return Template.instance().parent().showCharts.get();
-        //return true;
     },
     statistics: function () {
         var numbers = Session.get('questionNumber').toString().split(','),
@@ -89,7 +88,7 @@ Template.dataDisplay.helpers({
         }];
     },
     taken: function () {
-        console.log(this);
+        // console.log(this);
     }
 });
 
@@ -118,7 +117,7 @@ Template.quizDropdown.helpers({
 Template.quizDropdown.onRendered(function () {
     var instance = this;
     $('#quiz-selection').dropdown({
-        onChange: function () {console.log(instance);
+        onChange: function () {// console.log(instance);
             $('.dropdown').dropdown({
                 onChange: function () {
                     $('#questions-selection').dropdown({
@@ -135,7 +134,7 @@ Template.quizDropdown.onRendered(function () {
 
 Template.quizDropdownItem.events({
     "click .item": function (event, template) {
-        console.log(template.parent(2));
+        // console.log(template.parent(2));
         Session.set('quizSelected', this._id);
         template.parent(2).showCharts.set(true);
     }
@@ -145,7 +144,7 @@ Template.scores.helpers({
     selection: function () {
         return Quizzes.findOne(Session.get('quizSelected'));
     },
-    showCharts: function () {console.log(Template.instance().showCharts.get(), this);
+    showCharts: function () {// console.log(Template.instance().showCharts.get(), this);
         return Template.instance().showCharts.get();
     }
 });

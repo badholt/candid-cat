@@ -73,7 +73,7 @@ Template.multipleChoiceOption.events({
         } else {
             problem.answers = _.without(problem.answers, this.number);
         }
-        console.log(problem);
+        // console.log(problem);
         Meteor.call('updateProblem', problem);
     },
     "keyup input": function (event, template) {

@@ -15,7 +15,9 @@ Meteor.publish("reports", function () {
 Meteor.publish("users", function () {
     var currentUser = this.userId;
     if (currentUser) {
-        return Meteor.users.find({_id: currentUser}, {
+        /** Now, for author attribution, everyone's *public* profile information
+         *  will be available to logged in users: */
+        return Meteor.users.find({}, {
             fields: {
                 "profile": 1
             }

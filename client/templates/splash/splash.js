@@ -27,7 +27,7 @@ Template.login.events({
             requestPermissions: ['email']
         }, function (error) {
             if (error) {
-                console.log(error.reason)
+                // console.log(error.reason)
             } else {
                 Router.go('home');
             }
@@ -38,7 +38,7 @@ Template.login.events({
             requestPermissions: ['email']
         }, function (error) {
             if (error) {
-                console.log(error.reason)
+                // console.log(error.reason)
             } else {
                 Router.go('home');
             }
@@ -49,7 +49,7 @@ Template.login.events({
             requestPermissions: ['user:email']
         }, function (error) {
             if (error) {
-                console.log(error.reason)
+                // console.log(error.reason)
             } else {
                 Router.go('home');
             }
@@ -79,7 +79,7 @@ Template.login.events({
                             Session.set('signUp', false);
                             Router.go('home');
                         } else {
-                            console.log(error);
+                            // console.log(error);
                         }
                     });
                 }
