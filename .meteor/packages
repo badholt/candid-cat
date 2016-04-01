@@ -38,6 +38,8 @@ accounts-github
 accounts-google
 accounts-password
 accounts-facebook
+accounts-ui
+accounts-ui-unstyled
 alanning:roles
 service-configuration
 
