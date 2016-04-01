@@ -6,6 +6,16 @@ Template.header.helpers({
     }
 });
 
+Template.currentUser.events({
+    'click #logout': function (event, template) {
+        Meteor.logout();
+    }
+});
+
+Template.currentUser.onRendered(function () {
+    $('.ui.dropdown').dropdown();
+});
+
 Template.mobileNavigationDropdown.onRendered(function () {
     $('.mobile-navigation').dropdown({
         onShow: function () {
