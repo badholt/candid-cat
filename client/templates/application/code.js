@@ -30,7 +30,8 @@ Template.codeEditor.onRendered(function () {
         var number = $(cm.getTextArea()).attr('number'),
             questions = Quizzes.findOne(Session.get('currentQuiz')).questions,
             problem = Problems.findOne(questions[number]),
-            preview = document.getElementById('code-preview-' + number).editor,
+            previewElement = document.getElementById('code-preview-' + number),
+            preview = previewElement && previewElement.editor,
             value = cm.getValue();
         problem['code'] = value;
         if (preview) preview.setValue(value);
