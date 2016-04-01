@@ -67,16 +67,16 @@
         <div class="content">
             <a class="ui header">
                 {{title}}
-                <a class="sub header">by
+                <h4 class="sub header">by
                     {{#with this.author}}
                         {{name}}
                         {{#if picture}}
                             <img class="ui avatar image" src="{{picture}}"/>
                         {{/if}}
                     {{/with}}
-                </a>
+                </h4>
             </a>
-            <div class="description">last updated on {{lastUpdated}}</div>
+            <div class="description">last updated on {{this.lastUpdate}}</div>
         </div>
     </div>
 </template>
